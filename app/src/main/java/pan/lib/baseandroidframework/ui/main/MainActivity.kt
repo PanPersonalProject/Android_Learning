@@ -18,12 +18,6 @@ class MainActivity : BaseActivity() {
             startActivity<TopArticleActivity>()
         }
 
-//        requestPermission(this, Permission.Group.STORAGE,
-//            {
-//
-//            }, {
-//                toast("fail $it")
-//            })
     }
 
     override fun getLayoutId() = R.layout.activity_main
