@@ -19,7 +19,7 @@ val Number.dp2px: Float
         TypedValue.COMPLEX_UNIT_DIP,
         this.toFloat(),
         Resources.getSystem().displayMetrics
-    ).toFloat()
+    )
 
 
 val Number.px2dp: Int
