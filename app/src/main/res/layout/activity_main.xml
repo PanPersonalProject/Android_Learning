@@ -19,5 +19,10 @@
     <pan.lib.baseandroidframework.ui.views.DashBoardView
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginTop="100dp" />
+        android:layout_marginTop="10dp" />
+
+    <pan.lib.baseandroidframework.ui.views.PieChartView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp" />
 </LinearLayout>
