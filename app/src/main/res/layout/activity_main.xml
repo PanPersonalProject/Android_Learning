@@ -25,4 +25,9 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_marginTop="10dp" />
+
+    <pan.lib.baseandroidframework.ui.views.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/ic_launcher" />
 </LinearLayout>

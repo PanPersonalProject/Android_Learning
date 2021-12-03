@@ -32,7 +32,6 @@ class PieChartView(context: Context?, attrs: AttributeSet?) : View(context, attr
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        //仪表盘大小
         rectF.left = 10.dp2px
         rectF.right = width.toFloat() - 10.dp2px
         rectF.top = 10.dp2px
