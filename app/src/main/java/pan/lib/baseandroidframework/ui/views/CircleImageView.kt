@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.graphics.drawable.toBitmap
 import pan.lib.common_lib.utils.ext.dp2px
 
 /**
@@ -23,12 +24,12 @@ class CircleImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         rectF.left = 0f
-        rectF.right = width.toFloat() - 10.dp2px
+        rectF.right = width.toFloat()
         rectF.top = 0f
-        rectF.bottom = height.toFloat() - 10.dp2px
+        rectF.bottom = height.toFloat()
     }
 
-    override fun onDraw(canvas: Canvas?) {
-
+    override fun onDraw(canvas: Canvas) {
+        canvas.drawBitmap(drawable.toBitmap(width, height), 0f, 0f, paint)
     }
 }
