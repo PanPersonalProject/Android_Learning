@@ -63,9 +63,13 @@ class SportsView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         paint.style = Paint.Style.FILL
         paint.textAlign = Paint.Align.CENTER
         paint.getTextBounds(text, 0, text.length, boundsRect)
-//        val offset = (fontMetrics.ascent + fontMetrics.descent) / 2
         val offset = boundsRect.centerY() //centerY=(top + bottom) / 2    top为负 bottom在0附近
+
+        //根据text计算偏移,非常精准 但因此文字变换可能会上下跳动,非固定内容体验不好
         canvas.drawText(text, (width / 2).toFloat(), (height / 2 - offset).toFloat(), paint)
+//        //不太精准,但偏移量固定不变.适合非固定内容频繁变换的场景
+//        val offset = (fontMetrics.ascent + fontMetrics.descent) / 2
+
     }
 
 
