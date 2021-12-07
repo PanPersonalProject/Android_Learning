@@ -26,25 +26,11 @@
         android:layout_height="200dp"
         android:layout_marginTop="10dp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <pan.lib.baseandroidframework.ui.views.CircleImageView
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="#000000"
-            android:layout_marginStart="10dp"
-
-            android:src="@mipmap/ic_launcher" />
-
-        <ImageView
-            android:layout_marginTop="@dimen/dp_10"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="10dp"
-            android:background="#000000"
-            android:src="@mipmap/ic_launcher" />
-    </LinearLayout>
-
+    <pan.lib.baseandroidframework.ui.views.CircleImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="@dimen/dp_10"
+        android:src="@mipmap/bj" />
 </LinearLayout>
+
