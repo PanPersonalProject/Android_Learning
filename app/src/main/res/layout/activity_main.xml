@@ -16,21 +16,32 @@
         android:layout_gravity="center_horizontal"
         android:text="net request example" />
 
-    <pan.lib.baseandroidframework.ui.views.DashBoardView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="10dp" />
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:rowCount="2">
 
-    <pan.lib.baseandroidframework.ui.views.PieChartView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="10dp" />
+        <pan.lib.baseandroidframework.ui.views.DashBoardView
+            android:layout_width="160dp"
+            android:layout_height="160dp" />
 
-    <pan.lib.baseandroidframework.ui.views.CircleImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="@dimen/dp_10"
-        android:src="@mipmap/bj" />
+        <pan.lib.baseandroidframework.ui.views.PieChartView
+            android:layout_width="160dp"
+            android:layout_height="160dp" />
+
+        <pan.lib.baseandroidframework.ui.views.CircleImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@mipmap/bj" />
+
+        <pan.lib.baseandroidframework.ui.views.SportsView
+            android:layout_width="160dp"
+            android:layout_height="160dp" />
+
+
+    </GridLayout>
+
+
 </LinearLayout>
 
