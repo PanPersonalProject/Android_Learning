@@ -16,7 +16,7 @@ class CameraView(context: Context, attrs: AttributeSet?) : AppCompatImageView(co
     private val camera = Camera()
 
     init {
-        camera.rotateX(0f)
+        camera.rotateX(45f)
         camera.setLocation(0f, 0f, -6 * resources.displayMetrics.density) //更具屏幕分辨率设定z轴英尺
         paint.style = Paint.Style.FILL
     }
@@ -30,17 +30,22 @@ class CameraView(context: Context, attrs: AttributeSet?) : AppCompatImageView(co
     }
 
     override fun onDraw(canvas: Canvas) {
-        val picWidthHalf = (100.dp2px.toInt() / 2).toFloat() + 15.dp2px
+        val picWidthHalf = (100.dp2px.toInt() / 2).toFloat()
+        val picWidthMove = picWidthHalf + 15.dp2px
 
         //图片下半部分
         canvas.save()
+        canvas.translate(picWidthMove, picWidthMove)
         canvas.rotate(-20f)
+        camera.applyToCanvas(canvas)
+
         canvas.clipRect(
-            15.dp2px,
-            15.dp2px + 100.dp2px / 2,
-            15.dp2px + 100.dp2px,
-            15.dp2px + 100.dp2px
+            -picWidthHalf*2,
+            0f,
+            picWidthHalf*2,
+            picWidthHalf*2
         )
+        canvas.translate(-picWidthMove, -picWidthMove)   //移动到图片到坐标系原点再转动X轴,在Camera中操作是倒叙的
         canvas.rotate(20f)
         canvas.drawBitmap(
             drawable.toBitmap(
@@ -52,18 +57,16 @@ class CameraView(context: Context, attrs: AttributeSet?) : AppCompatImageView(co
 
         //图片上半部分
         canvas.save()
-        canvas.translate(picWidthHalf, picWidthHalf)
+        canvas.translate(picWidthMove, picWidthMove)
         canvas.rotate(-20f)
-        camera.applyToCanvas(canvas)
-        canvas.rotate(20f)
-
-        canvas.translate(-picWidthHalf, -picWidthHalf)   //移动到图片到坐标系原点再转动X轴,在Camera中操作是倒叙的
         canvas.clipRect(
-            15.dp2px,
-            15.dp2px ,
-            15.dp2px + 100.dp2px,
-            15.dp2px + 50.dp2px
+            -picWidthHalf*2,
+            0f,
+            picWidthHalf*2,
+            -picWidthHalf*2
         )
+        canvas.translate(-picWidthMove, -picWidthMove)   //移动到图片到坐标系原点再转动X轴,在Camera中操作是倒叙的
+        canvas.rotate(20f)
         canvas.drawBitmap(
             drawable.toBitmap(
                 100.dp2px.toInt(),

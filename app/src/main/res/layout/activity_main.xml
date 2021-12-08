@@ -55,6 +55,7 @@
             <androidx.appcompat.widget.AppCompatSeekBar
                 android:id="@+id/seekbar"
                 android:layout_width="match_parent"
+                android:progress="45"
                 android:layout_height="@dimen/permission_dp_30"
                 android:max="90" />
         </LinearLayout>
