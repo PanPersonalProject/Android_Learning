@@ -1,6 +1,7 @@
 package pan.lib.baseandroidframework.ui.main
 
 import android.os.Bundle
+import android.widget.SeekBar
 import com.example.demo.ui.top.TopArticleActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
@@ -17,6 +18,19 @@ class MainActivity : BaseActivity() {
         btNet.setOnClickListener {
             startActivity<TopArticleActivity>()
         }
+
+        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                cameraView.rotateX3d(progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+            }
+
+        })
 
     }
 
