@@ -16,53 +16,12 @@
         android:layout_gravity="center_horizontal"
         android:text="net request example" />
 
-    <GridLayout
+
+    <Button
+        android:id="@+id/btCustomView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:orientation="horizontal">
-
-        <pan.lib.baseandroidframework.ui.views.DashBoardView
-            android:layout_width="160dp"
-            android:layout_height="160dp" />
-
-        <pan.lib.baseandroidframework.ui.views.PieChartView
-            android:layout_width="160dp"
-            android:layout_height="160dp" />
-
-        <pan.lib.baseandroidframework.ui.views.CircleImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:src="@mipmap/bj" />
-
-        <pan.lib.baseandroidframework.ui.views.SportsView
-            android:layout_width="160dp"
-            android:layout_height="160dp" />
-
-        <LinearLayout
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:src="@mipmap/bj">
-
-            <pan.lib.baseandroidframework.ui.views.CameraView
-                android:id="@+id/cameraView"
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:src="@mipmap/bj" />
-
-            <androidx.appcompat.widget.AppCompatSeekBar
-                android:id="@+id/seekbar"
-                android:layout_width="match_parent"
-                android:progress="45"
-                android:layout_height="@dimen/permission_dp_30"
-                android:max="90" />
-        </LinearLayout>
-
-
-    </GridLayout>
-
-
+        android:layout_gravity="center_horizontal"
+        android:text="CustomViews" />
 </LinearLayout>
 

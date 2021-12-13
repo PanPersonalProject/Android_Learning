@@ -13,24 +13,15 @@ class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setTitle("首页")
         btNet.setOnClickListener {
             startActivity<TopArticleActivity>()
         }
 
-        seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                cameraView.rotateX3d(progress)
-            }
+        btCustomView.setOnClickListener {
+            startActivity<CustomerViewDemoActivity>()
+        }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-            }
-
-        })
 
     }
 
