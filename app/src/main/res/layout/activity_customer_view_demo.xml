@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnCount="2"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <pan.lib.baseandroidframework.ui.views.DashBoardView
             android:layout_width="160dp"
@@ -33,27 +34,14 @@
 
     </GridLayout>
 
-    <LinearLayout
+
+    <pan.lib.baseandroidframework.ui.views.CameraView
+        android:id="@+id/cameraView"
+        android:src="@mipmap/bj"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:src="@mipmap/bj">
+        android:layout_height="160dp" />
 
-        <pan.lib.baseandroidframework.ui.views.CameraView
-            android:id="@+id/cameraView"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:src="@mipmap/bj" />
-
-        <androidx.appcompat.widget.AppCompatSeekBar
-            android:id="@+id/seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="45"
-            android:progress="0" />
-    </LinearLayout>
 
 </LinearLayout>
 
