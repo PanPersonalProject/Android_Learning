@@ -5,6 +5,7 @@ import android.graphics.Camera
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.util.AttributeSet
+import androidx.annotation.Keep
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.graphics.drawable.toBitmap
 import pan.lib.common_lib.utils.WindowUtil
@@ -13,6 +14,7 @@ import pan.lib.common_lib.utils.printSimpleLog
 /**
  * AUTHOR Pan Created on 2021/12/8
  */
+@Keep
 class CameraView(context: Context, attrs: AttributeSet?) : AppCompatImageView(context, attrs) {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val camera = Camera()

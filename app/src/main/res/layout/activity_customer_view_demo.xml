@@ -32,15 +32,22 @@
             android:layout_width="160dp"
             android:layout_height="160dp" />
 
+        <pan.lib.baseandroidframework.ui.views.CameraView
+            android:id="@+id/cameraView"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_marginTop="@dimen/dp_10"
+            android:src="@mipmap/bj" />
     </GridLayout>
 
 
-    <pan.lib.baseandroidframework.ui.views.CameraView
-        android:id="@+id/cameraView"
-        android:src="@mipmap/bj"
-        android:layout_marginTop="@dimen/dp_10"
-        android:layout_width="160dp"
-        android:layout_height="160dp" />
+    <pan.lib.baseandroidframework.ui.views.MaterialEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:hint="input account"
+        android:textColorHint="@android:color/darker_gray"
+        android:textSize="15sp" />
 
 
 </LinearLayout>
