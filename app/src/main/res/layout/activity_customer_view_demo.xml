@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:columnCount="2"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <pan.lib.baseandroidframework.ui.views.DashBoardView
             android:layout_width="160dp"
@@ -29,8 +29,8 @@
             android:src="@mipmap/bj" />
 
         <pan.lib.baseandroidframework.ui.views.SportsView
-            android:layout_width="160dp"
-            android:layout_height="160dp" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <pan.lib.baseandroidframework.ui.views.CameraView
             android:id="@+id/cameraView"

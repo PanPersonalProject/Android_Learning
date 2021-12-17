@@ -25,6 +25,15 @@ class SportsView(context: Context, attrs: AttributeSet) : View(context, attrs) {
         paint.textAlign = Paint.Align.CENTER
     }
 
+
+    private val defaultWidth = 160.dp2px
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        val resolveWidth = resolveSize(defaultWidth.toInt(), widthMeasureSpec)
+        val resolveHeight = resolveSize(defaultWidth.toInt(), heightMeasureSpec)
+        setMeasuredDimension(resolveWidth, resolveHeight)
+    }
+
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         rectF.left = ringWidth
