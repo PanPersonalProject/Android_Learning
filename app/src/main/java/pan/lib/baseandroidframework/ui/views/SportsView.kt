@@ -5,6 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import pan.lib.common_lib.utils.ext.dp2px
+import kotlin.math.max
 
 /**
  * AUTHOR Pan Created on 2021/12/7
@@ -31,7 +32,8 @@ class SportsView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val resolveWidth = resolveSize(defaultWidth.toInt(), widthMeasureSpec)
         val resolveHeight = resolveSize(defaultWidth.toInt(), heightMeasureSpec)
-        setMeasuredDimension(resolveWidth, resolveHeight)
+        val size = max(resolveWidth, resolveHeight)
+        setMeasuredDimension(size, size)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
