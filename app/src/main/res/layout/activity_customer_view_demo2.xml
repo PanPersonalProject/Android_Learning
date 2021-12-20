@@ -15,7 +15,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:background="#ffffff"
             android:gravity="center"
             android:padding="@dimen/dp_10"
@@ -24,17 +23,14 @@
         <TextView
             android:layout_width="170dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:background="#ffffff"
             android:gravity="center"
-            android:layout_marginLeft="20dp"
             android:padding="@dimen/dp_10"
             android:text="456" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:background="#ffffff"
             android:gravity="center"
             android:padding="@dimen/dp_10"
@@ -43,7 +39,6 @@
         <TextView
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:background="#ffffff"
             android:gravity="center"
             android:padding="@dimen/dp_10"
@@ -52,7 +47,6 @@
         <TextView
             android:layout_width="100dp"
             android:layout_height="60dp"
-            android:layout_marginStart="10dp"
             android:background="#ffffff"
             android:gravity="center"
             android:padding="@dimen/dp_10"
@@ -61,7 +55,6 @@
         <TextView
             android:layout_width="170dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:background="#ffffff"
             android:gravity="center"
             android:padding="@dimen/dp_10"
@@ -70,7 +63,6 @@
         <TextView
             android:layout_width="170dp"
             android:layout_height="80dp"
-            android:layout_marginStart="10dp"
             android:background="#ffffff"
             android:gravity="center"
             android:padding="@dimen/dp_10"
@@ -79,17 +71,16 @@
         <TextView
             android:layout_width="170dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+
             android:background="#ffffff"
             android:gravity="center"
-            android:layout_marginLeft="10dp"
             android:padding="@dimen/dp_10"
             android:text="4444" />
 
         <TextView
             android:layout_width="170dp"
             android:layout_height="80dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="30dp"
             android:background="#ffffff"
             android:gravity="center"
             android:padding="@dimen/dp_10"

@@ -1,12 +1,8 @@
 package pan.lib.baseandroidframework.ui.views
 
 import android.content.Context
-import android.graphics.Rect
 import android.util.AttributeSet
-import android.view.View.MeasureSpec
 import android.view.ViewGroup
-import androidx.core.view.children
-import pan.lib.common_lib.utils.printLog
 import kotlin.math.max
 
 /**
@@ -14,6 +10,13 @@ import kotlin.math.max
  */
 class FollowLayout(context: Context?, attrs: AttributeSet?) : ViewGroup(context, attrs) {
 
+    override fun generateLayoutParams(attrs: AttributeSet?): LayoutParams {
+        return MarginLayoutParams(context, attrs)
+    }
+
+    override fun generateDefaultLayoutParams(): LayoutParams {
+        return MarginLayoutParams(super.generateDefaultLayoutParams())
+    }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
@@ -25,8 +28,16 @@ class FollowLayout(context: Context?, attrs: AttributeSet?) : ViewGroup(context,
 
         for (position in 0 until childCount) {
             val view = getChildAt(position)
-            measureChild(view, widthMeasureSpec, heightMeasureSpec)
-            if (measuredWidth < currentWidth + view.measuredWidth) {
+            measureChildWithMargins(
+                view,
+                widthMeasureSpec,
+                currentWidth,
+                heightMeasureSpec,
+                lastLineTop
+            )
+            val marginLayoutParams = view.layoutParams as MarginLayoutParams
+
+            if (measuredWidth < currentWidth + view.measuredWidth + marginLayoutParams.marginStart) {
                 lastLineTop += lineMaxHeight
                 maxwidth = max(maxwidth, currentWidth)
                 lineMaxHeight = 0
@@ -45,20 +56,20 @@ class FollowLayout(context: Context?, attrs: AttributeSet?) : ViewGroup(context,
 
 
     override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
-        printLog("l=$l,t=$t,r=$r,b=$b")
         var currentWidth = 0  //当前行用到的宽度位置
         var lastLineTop = 0 //最新一行的top值
         var lineMaxHeight = 0 //当前行view最高的height
 
         for (position in 0 until childCount) {
             val view = getChildAt(position)
-            if (measuredWidth < currentWidth + view.measuredWidth) {
+            val marginLayoutParams = view.layoutParams as MarginLayoutParams
+            if (measuredWidth < currentWidth + view.measuredWidth + marginLayoutParams.marginStart) {
                 lastLineTop += lineMaxHeight
                 lineMaxHeight = 0
                 currentWidth = 0
             }
             view.layout(
-                currentWidth, //相对距离 l – Left position, relative to parent
+                currentWidth + marginLayoutParams.marginStart, //相对距离 l – Left position, relative to parent
                 lastLineTop,
                 currentWidth + view.measuredWidth,
                 lastLineTop + view.measuredHeight
