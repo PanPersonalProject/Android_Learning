@@ -1,20 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     android:orientation="vertical"
     tools:context=".ui.main.CustomerViewDemoActivity2">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="#3f00ff00" />
-
-    <pan.lib.baseandroidframework.ui.views.TagLayout
+    <pan.lib.baseandroidframework.ui.views.FollowLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#0000ff" />
+        android:background="#0000ff">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="123" />
+
+        <TextView
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:layout_marginLeft="20dp"
+            android:padding="@dimen/dp_10"
+            android:text="456" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="456" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="789" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="10dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="1111" />
+
+        <TextView
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="2222" />
+
+        <TextView
+            android:layout_width="170dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="10dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="3333" />
+
+        <TextView
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:layout_marginLeft="10dp"
+            android:padding="@dimen/dp_10"
+            android:text="4444" />
+
+        <TextView
+            android:layout_width="170dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="10dp"
+            android:background="#ffffff"
+            android:gravity="center"
+            android:padding="@dimen/dp_10"
+            android:text="5555" />
+
+
+    </pan.lib.baseandroidframework.ui.views.FollowLayout>
+
 
 </LinearLayout>
