@@ -89,5 +89,26 @@
 
     </pan.lib.baseandroidframework.ui.views.FollowLayout>
 
+    <pan.lib.baseandroidframework.ui.views.TouchStudyFrameLayout
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@color/colorPrimaryDark">
+
+        <pan.lib.baseandroidframework.ui.views.TouchStudyView
+            android:id="@+id/test1"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="50dp"
+            android:background="#ff0000" />
+
+        <pan.lib.baseandroidframework.ui.views.TouchStudyView
+            android:id="@+id/test2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="50dp"
+            android:background="#00ff00" />
+
+
+    </pan.lib.baseandroidframework.ui.views.TouchStudyFrameLayout>
 
 </LinearLayout>

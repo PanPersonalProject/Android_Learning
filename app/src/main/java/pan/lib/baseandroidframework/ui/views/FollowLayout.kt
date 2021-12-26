@@ -18,6 +18,10 @@ class FollowLayout(context: Context?, attrs: AttributeSet?) : ViewGroup(context,
         return MarginLayoutParams(super.generateDefaultLayoutParams())
     }
 
+    override fun shouldDelayChildPressedState(): Boolean {
+        return false
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
 
