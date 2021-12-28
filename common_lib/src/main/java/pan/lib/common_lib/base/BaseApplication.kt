@@ -3,6 +3,7 @@ package pan.lib.common_lib.base
 import android.content.Context
 import androidx.multidex.MultiDexApplication
 import com.alibaba.android.arouter.launcher.ARouter
+import com.hjq.toast.ToastUtils
 import com.tencent.mmkv.MMKV
 import pan.lib.common_lib.BuildConfig
 import pan.lib.common_lib.utils.initLogger
@@ -29,6 +30,7 @@ abstract class BaseApplication : MultiDexApplication() {
         initLogger()
         initMMKV()
         initARouter()
+        ToastUtils.init(this)
     }
 
     private fun initMMKV() {

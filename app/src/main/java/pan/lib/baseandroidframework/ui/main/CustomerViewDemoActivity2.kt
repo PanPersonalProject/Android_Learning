@@ -1,17 +1,20 @@
 package pan.lib.baseandroidframework.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MotionEvent
+import androidx.appcompat.app.AppCompatActivity
 import pan.lib.baseandroidframework.R
 
 class CustomerViewDemoActivity2 : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_customer_view_demo2)
+    enum class Type {
+        DEMO2, SCALE_IMAGE
     }
 
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        return super.dispatchTouchEvent(ev)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        when (Type.SCALE_IMAGE) {
+            Type.DEMO2 -> setContentView(R.layout.activity_customer_view_demo2)
+            Type.SCALE_IMAGE -> setContentView(R.layout.activity_customer_view_demo2_scaleable_image)
+        }
     }
+
 }
