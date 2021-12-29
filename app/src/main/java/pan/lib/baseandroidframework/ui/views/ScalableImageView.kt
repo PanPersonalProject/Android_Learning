@@ -1,5 +1,6 @@
 package pan.lib.baseandroidframework.ui.views
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
@@ -10,6 +11,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.OverScroller
+import androidx.annotation.Keep
 import pan.lib.baseandroidframework.R
 import pan.lib.common_lib.utils.ext.dp2px
 import pan.lib.common_lib.utils.makeBitmap
@@ -18,6 +20,7 @@ import pan.lib.common_lib.utils.printSimpleLog
 /**
  * AUTHOR Pan Created on 2021/12/27
  */
+@Keep
 class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
 
@@ -33,6 +36,14 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
     private val overScale = 1.5
     private var smallScale = 0f
     private var bigScale = 0f
+
+    private val scaleAnimator by lazy { ObjectAnimator.ofFloat(this, "scaleProgress", 0f, 1f) }
+
+    private var scaleProgress = 0f
+        set(value) {
+            field = value
+            invalidate()
+        }
     private val gestureDetector = GestureDetector(context, ScalableImageViewGestureListener())
     private var scroller = OverScroller(context)
 
@@ -57,13 +68,11 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
     }
 
     override fun onDraw(canvas: Canvas) {
-
+        transX *= scaleProgress
+        transY *= scaleProgress
         canvas.translate(transX, transY)
-        if (isBig) {
-            canvas.scale(bigScale, bigScale, width / 2f, height / 2f)
-        } else {
-            canvas.scale(smallScale, smallScale, width / 2f, height / 2f)
-        }
+        val scale = smallScale + (bigScale - smallScale) * scaleProgress
+        canvas.scale(scale, scale, width / 2f, height / 2f)
         canvas.drawBitmap(bitmap, offsetX, offsetY, paint)
     }
 
@@ -87,7 +96,6 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
                 transX = transX.coerceAtLeast(-(bigWidth - width) / 2)
                 transY = transY.coerceAtMost((bigHeight - height) / 2)
                 transY = transY.coerceAtLeast(-(bigHeight - height) / 2)
-                printSimpleLog("transX=$transX,transY=$transY")
                 invalidate()
             }
             return super.onScroll(e1, e2, distanceX, distanceY)
@@ -122,11 +130,12 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
 
         override fun onDoubleTap(e: MotionEvent?): Boolean {
             isBig = !isBig
-            if (!isBig) {
-                transY = 0f
-                transX = 0f
+            scaleAnimator.cancel()
+            if (isBig) {
+                scaleAnimator.start()
+            } else {
+                scaleAnimator.reverse()
             }
-            invalidate()
             return super.onDoubleTap(e)
         }
 
