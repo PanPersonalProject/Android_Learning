@@ -9,6 +9,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.MotionEvent
+import android.view.ScaleGestureDetector
 import android.view.View
 import android.widget.OverScroller
 import androidx.annotation.Keep
@@ -36,21 +37,29 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
     private val overScale = 1.5
     private var smallScale = 0f
     private var bigScale = 0f
+    private var currentScale = 0f
 
     private val scaleAnimator by lazy { ObjectAnimator.ofFloat(this, "scaleProgress", 0f, 1f) }
 
     private var scaleProgress = 0f
         set(value) {
             field = value
+            currentScale = smallScale + (bigScale - smallScale) * value
             invalidate()
         }
-    private val gestureDetector = GestureDetector(context, ScalableImageViewGestureListener())
+    private val scaleGestureListener = ScalableImageViewGestureListener()
+    private val gestureDetector = GestureDetector(context, scaleGestureListener)
+    private val scaleDetector = ScaleGestureDetector(context, scaleGestureListener)
     private var scroller = OverScroller(context)
 
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return gestureDetector.onTouchEvent(event)
+        var result = scaleDetector.onTouchEvent(event)
+        if (!scaleDetector.isInProgress) {
+            result = gestureDetector.onTouchEvent(event);
+        }
+        return result
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -65,20 +74,22 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
             smallScale = height / bitmap.height.toFloat()
             bigScale = ((width / bitmap.width.toFloat()) * overScale).toFloat()
         }
+        currentScale = smallScale
     }
 
     override fun onDraw(canvas: Canvas) {
         transX *= scaleProgress
         transY *= scaleProgress
         canvas.translate(transX, transY)
-        val scale = smallScale + (bigScale - smallScale) * scaleProgress
-        canvas.scale(scale, scale, width / 2f, height / 2f)
+        canvas.scale(currentScale, currentScale, width / 2f, height / 2f)
         canvas.drawBitmap(bitmap, offsetX, offsetY, paint)
     }
 
 
     private inner class ScalableImageViewGestureListener :
-        GestureDetector.SimpleOnGestureListener(), Runnable {
+        GestureDetector.SimpleOnGestureListener(), ScaleGestureDetector.OnScaleGestureListener,
+        Runnable {
+        var originScale = 0f
         override fun onDown(e: MotionEvent?): Boolean {
             return true // 每次 ACTION_DOWN 事件出现的时候都会被调⽤，在这⾥返回 true 可以保证必然消费掉,确保后续MOVE UP操作
         }
@@ -147,6 +158,21 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
                 postOnAnimation(this)
             }
 
+        }
+
+        override fun onScale(detector: ScaleGestureDetector): Boolean {
+            currentScale = originScale * detector.scaleFactor
+            invalidate()
+            return false
+        }
+
+        override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {
+            originScale = currentScale
+            return true
+        }
+
+        override fun onScaleEnd(detector: ScaleGestureDetector?) {
+            originScale = 0f
         }
 
     }
