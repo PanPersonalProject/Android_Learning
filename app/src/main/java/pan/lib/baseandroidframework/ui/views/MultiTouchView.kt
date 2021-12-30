@@ -33,7 +33,13 @@ class MultiTouchView(context: Context, attrs: AttributeSet?) : View(context, att
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
+//        multiTouchType1(event)      //接力型多点触控
+        multiTouchType2(event)        //配合形多点触控
 
+        return true
+    }
+
+    private fun multiTouchType1(event: MotionEvent) {
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
                 currentPointerId = event.getPointerId(0)
@@ -79,7 +85,51 @@ class MultiTouchView(context: Context, attrs: AttributeSet?) : View(context, att
             }
 
         }
-        return true
+    }
+
+    private fun multiTouchType2(event: MotionEvent) {
+        var sumX = 0f
+        var sumY = 0f
+
+        for (index in 0 until event.pointerCount) {
+            sumX += event.getX(index)
+            sumY += event.getY(index)
+        }
+
+        var focusX = sumX / event.pointerCount
+        var focusY = sumY / event.pointerCount
+
+
+        when (event.actionMasked) {
+            MotionEvent.ACTION_POINTER_DOWN, MotionEvent.ACTION_DOWN -> {
+                downX = focusX
+                downY = focusY
+                lastOffsetX = offsetX  //累积上一次的offset
+                lastOffsetY = offsetY
+                printSimpleLog("down  {$lastOffsetX}   {$lastOffsetY}")
+
+            }
+            MotionEvent.ACTION_POINTER_UP -> {
+                focusX=(sumX- event.getX(event.actionIndex))/(event.pointerCount-1) //因为抬起手指,但还没删除,所以手动删除,矫正焦点
+                focusY=(sumY- event.getY(event.actionIndex))/(event.pointerCount-1)
+
+                downX = focusX
+                downY = focusY
+                lastOffsetX = offsetX  //累积上一次的offset
+                lastOffsetY = offsetY
+
+            }
+
+            MotionEvent.ACTION_MOVE -> {
+
+                offsetX = lastOffsetX + (focusX - downX)
+                offsetY = lastOffsetY + (focusY - downY)
+                invalidate()
+
+            }
+
+
+        }
     }
 
 
