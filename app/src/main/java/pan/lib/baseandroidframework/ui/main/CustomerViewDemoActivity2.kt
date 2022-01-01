@@ -6,16 +6,17 @@ import pan.lib.baseandroidframework.R
 
 class CustomerViewDemoActivity2 : AppCompatActivity() {
     enum class Type {
-        DEMO2, SCALE_IMAGE, MULTI_TOUCH, PAINT_MULTI_TOUCH
+        DEMO2, SCALE_IMAGE, MULTI_TOUCH, PAINT_MULTI_TOUCH, TWO_PAGE
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        when (Type.PAINT_MULTI_TOUCH) {
+        when (Type.TWO_PAGE) {
             Type.DEMO2 -> setContentView(R.layout.activity_customer_view_demo2)
             Type.SCALE_IMAGE -> setContentView(R.layout.activity_customer_view_demo2_scaleable_image)
             Type.MULTI_TOUCH -> setContentView(R.layout.activity_customer_view_demo2_multi_touch)
             Type.PAINT_MULTI_TOUCH -> setContentView(R.layout.activity_customer_view_demo2_paint_multi_touch)
+            Type.TWO_PAGE -> setContentView(R.layout.activity_customer_view_demo2_two_pager)
         }
     }
 
