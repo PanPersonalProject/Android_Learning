@@ -6,14 +6,25 @@
     android:layout_height="wrap_content"
     tools:context=".ui.main.CustomerViewDemoActivity">
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/scrollRecyclerView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+        android:orientation="vertical">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="@android:color/holo_orange_light" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/scrollRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
 
 </androidx.core.widget.NestedScrollView>

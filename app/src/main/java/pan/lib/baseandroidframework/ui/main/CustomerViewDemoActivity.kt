@@ -18,7 +18,7 @@ class CustomerViewDemoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        when (Type.DEMO1) {
+        when (Type.SCROLL) {
             Type.DEMO1 -> {
                 setContentView(R.layout.activity_customer_view_demo)
                 picAnimator()
@@ -32,6 +32,7 @@ class CustomerViewDemoActivity : AppCompatActivity() {
             Type.DRAG_HELPER -> setContentView(R.layout.activity_customer_view_demo2_drag_up_down)
             Type.SCROLL -> {
                 setContentView(R.layout.activity_customer_view_demo2_scroll)
+                nestedScroll()
             }
         }
     }
@@ -52,11 +53,19 @@ class CustomerViewDemoActivity : AppCompatActivity() {
         animatorSet.start()
     }
 
-    //SCROLL
+    /**
+    NestedScrollView嵌套RecyclerView,如果RecyclerView先限制高度,RecyclerView会将自己高度测量为所有item的高度,导致一次性加载所以item
+    所以NestedScrollView嵌套RecyclerView 应该限制recyclerview高度*/
     private fun nestedScroll() {
-
-        val topArticleAdapter = TopArticleAdapter()
+        val topArticleAdapter = TopArticleAdapter().apply {
+            val list = mutableListOf<String>()
+            for (index in 0..20) {
+                list.add("index $index")
+            }
+            setNewInstance(list)
+        }
         scrollRecyclerView.adapter = topArticleAdapter
+
     }
 
 }
