@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
 apply plugin: 'kotlin-android-extensions'
 apply from: "../config.gradle"
 
@@ -51,11 +50,6 @@ dependencies {
     api 'androidx.multidex:multidex:2.0.1'
     api 'androidx.preference:preference:1.1.1'
 
-    implementation "com.google.dagger:hilt-android:$depVer.hilt"
-    kapt "com.google.dagger:hilt-android-compiler:$depVer.hilt"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$depVer.hilt_jetpack"
-    kapt "androidx.hilt:hilt-compiler:$depVer.hilt_jetpack"
-
     //third
     api 'com.google.code.gson:gson:2.8.6'
     api 'com.github.salomonbrys.kotson:kotson:2.5.0'
@@ -68,7 +62,6 @@ dependencies {
     api 'com.squareup.okhttp3:logging-interceptor:4.7.2'
     api 'com.hjq:toast:8.2'
     api 'com.orhanobut:logger:2.2.0'
-    api "com.alibaba:arouter-api:$depVer.arouter"
     api 'com.gyf.immersionbar:immersionbar:3.0.0'
     implementation  'com.tencent:mmkv-static:1.2.2'
 }

@@ -32,7 +32,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.SplashActivity"></activity>
     </application>
 
 </manifest>

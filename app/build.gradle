@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
 apply from: "../config.gradle"
 
 
@@ -68,11 +67,4 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':common_lib')
-
-    implementation "com.google.dagger:hilt-android:$depVer.hilt"
-    kapt "com.google.dagger:hilt-android-compiler:$depVer.hilt"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$depVer.hilt_jetpack"
-    kapt "androidx.hilt:hilt-compiler:$depVer.hilt_jetpack"
-
-    kapt "com.alibaba:arouter-compiler:$depVer.arouter_kapt"
 }
