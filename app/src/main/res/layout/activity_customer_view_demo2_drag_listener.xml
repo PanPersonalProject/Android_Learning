@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pan.lib.baseandroidframework.ui.views.DragAndDownLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.main.CustomerViewDemoActivity2">
+
+    <ImageView
+        android:id="@+id/iv_1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="boji"
+        android:src="@mipmap/bj"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:contentDescription="icon"
+        android:src="@mipmap/ic_launcher"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <LinearLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#7f00ffff"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent" />
+</pan.lib.baseandroidframework.ui.views.DragAndDownLayout>
