@@ -5,10 +5,10 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.demo.ui.top.TopArticleAdapter
 import kotlinx.android.synthetic.main.activity_customer_view_demo.*
 import kotlinx.android.synthetic.main.activity_customer_view_demo2_scroll.*
 import pan.lib.baseandroidframework.R
+import pan.lib.baseandroidframework.ui.adapter.TopArticleAdapter
 
 class CustomerViewDemoActivity : AppCompatActivity() {
     enum class Type {

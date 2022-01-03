@@ -11,7 +11,7 @@ android {
     buildToolsVersion android.buildToolsVersion
 
     defaultConfig {
-        applicationId "pan.lib.baseandroidframework"
+        applicationId "pan.lib.android_learning"
         minSdkVersion android.minSdkVersion
         targetSdkVersion android.targetSdkVersion
         versionCode android.versionCode
@@ -68,8 +68,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':common_lib')
-    implementation project(':login')
-    implementation project(':demo')
 
     implementation "com.google.dagger:hilt-android:$depVer.hilt"
     kapt "com.google.dagger:hilt-android-compiler:$depVer.hilt"
