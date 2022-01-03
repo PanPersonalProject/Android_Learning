@@ -23,9 +23,8 @@
             android:value="portrait|landscape" />
 
         <activity android:name=".ui.main.MainActivity" />
+
         <activity android:name=".ui.main.CustomerViewDemoActivity">
-        </activity>
-        <activity android:name=".ui.main.CustomerViewDemoActivity2">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
