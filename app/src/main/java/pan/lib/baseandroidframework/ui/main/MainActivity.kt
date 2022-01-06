@@ -17,7 +17,6 @@ class MainActivity : BaseActivity() {
             startActivity<CustomerViewDemoActivity>()
         }
 
-
     }
 
     override fun getLayoutId() = R.layout.activity_main

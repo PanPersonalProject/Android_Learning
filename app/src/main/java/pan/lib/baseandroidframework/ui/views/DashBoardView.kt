@@ -22,7 +22,7 @@ class DashBoardView(context: Context, attrs: AttributeSet?) : View(context, attr
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 2.dp2px
         dashPath.addRect(0f, 0f, 2.dp2px, 10.dp2px, Path.Direction.CW)
-
+requestLayout()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
