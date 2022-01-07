@@ -15,12 +15,12 @@ import java.util.concurrent.atomic.AtomicInteger;
  * AUTHOR Pan Created on 2022/1/4
  */
 public class ThreadDemo {
-/*
-    保证加了 volatile 关键字的字段的操作具有原⼦性和同步性，其中原⼦性相当于实现了针对
-    单⼀字段的线程间互斥访问。因此 volatile 可以看做是简化版的 synchronized。
-    volatile 只对基本类型 (byte、char、short、int、long、float、double、boolean) 的赋值
-    操作和对象的引⽤赋值操作有效。
-    i++不是单一的赋值操作,还有i+1的计算,所以volatile不适用于计算*/
+    /*
+        保证加了 volatile 关键字的字段的操作具有原⼦性和同步性，其中原⼦性相当于实现了针对
+        单⼀字段的线程间互斥访问。因此 volatile 可以看做是简化版的 synchronized。
+        volatile 只对基本类型 (byte、char、short、int、long、float、double、boolean) 的赋值
+        操作和对象的引⽤赋值操作有效。
+        i++不是单一的赋值操作,还有i+1的计算,所以volatile不适用于计算*/
     volatile int volatileInt = 1;
 
     public static void main(String[] args) {
@@ -28,8 +28,8 @@ public class ThreadDemo {
 //        threadFactory()
 //        executor();
 //        callable();
-        lockDemo();
-
+//        lockDemo();
+        interruptDemo();
     }
 
 
@@ -45,6 +45,7 @@ public class ThreadDemo {
             }
         };
         thread.start();
+        thread.interrupt();
     }
 
     static void threadFactory() {
@@ -115,6 +116,35 @@ public class ThreadDemo {
 
     private static void lockDemo() {
         new ReadWriteLockDemo().test();
+    }
+
+    private static void interruptDemo() {
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                int i = 0;
+                while (true) {
+
+                    if (isInterrupted()) {
+                        return;
+                    }
+                    try {
+                        sleep(1000);
+                        System.out.println("now i = " + ++i);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+
+        thread.start();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        thread.interrupt();
     }
 
 }
