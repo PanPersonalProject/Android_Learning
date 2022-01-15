@@ -68,3 +68,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':common_lib')
 }
+
+task cleanTest(type:Delete){
+    println 'the path is = '+ rootProject.file('deleteFileTest.txt')
+    delete rootProject.file('deleteFileTest.txt')
+}
