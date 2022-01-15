@@ -24,7 +24,9 @@
 
         <activity android:name=".ui.main.MainActivity" />
 
-        <activity android:name=".ui.main.CustomerViewDemoActivity">
+        <activity
+            android:name=".ui.main.CustomerViewDemoActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
