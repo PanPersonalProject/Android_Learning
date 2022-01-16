@@ -1,0 +1,10 @@
+repositories {
+    google()
+    jcenter()
+}
+
+dependencies {
+    implementation 'com.android.tools.build:gradle:7.0.4'
+    implementation 'org.javassist:javassist:3.27.0-GA'
+
+}
