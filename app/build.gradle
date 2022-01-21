@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply from: "../config.gradle"
 apply plugin: 'author'
-apply plugin: 'transform'
+apply plugin: 'transform-toast'
 
 authorInfo {
     authorName 'pan'
