@@ -1,4 +1,4 @@
-package pan.lib.baseandroidframework.ui.thread_test;
+package pan.lib.baseandroidframework.java_demo.thread_test;
 
 public class WaitDemo {
     private String sharedString;

@@ -11,7 +11,7 @@ import kotlin.math.sin
 /**
  * AUTHOR Pan Created on 2021/12/1
  */
-class DashBoardView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
+class  DashBoardView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val rectF = RectF()
     private lateinit var pathDashPathEffect: PathDashPathEffect
