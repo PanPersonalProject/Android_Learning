@@ -31,6 +31,12 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java', 'src/main/aidl']
+        }
+    }
+
     signingConfigs {
         jks {
             storeFile file('key.jks')
