@@ -10,8 +10,7 @@ apply from: "../config.gradle"
 //}
 
 android {
-    compileSdkVersion android.compileSdkVersion
-    buildToolsVersion android.buildToolsVersion
+    compileSdk android.compileSdkVersion
 
     defaultConfig {
         applicationId "pan.lib.android_learning"
