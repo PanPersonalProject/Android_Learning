@@ -23,6 +23,10 @@
 
         <activity
             android:name=".ui.main.MessengerCustomerActivity"
+            android:exported="true"></activity>
+
+        <activity
+            android:name=".ui.main.BinderCustomerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,9 +35,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".ui.main.BinderCustomerActivity"
-            android:exported="true" />
         <meta-data
             android:name="android.notch_support"
             android:value="true" />
