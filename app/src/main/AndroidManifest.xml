@@ -14,7 +14,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!-- 适配华为刘海屏 -->
+        <service
+            android:name=".services.BookManagerService"
+            android:process=":remote" />
+
+        <activity
+            android:name=".ui.main.BinderCustomerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- 适配华为刘海屏 -->
         <meta-data
             android:name="android.notch_support"
             android:value="true" /> <!-- 适配小米刘海屏 -->
@@ -22,18 +34,11 @@
             android:name="notch.config"
             android:value="portrait|landscape" />
 
-        <activity android:name=".ui.main.MainActivity" />
-
         <activity
-            android:name=".ui.main.CustomerViewDemoActivity"
+            android:name=".ui.main.MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-
+        <activity android:name=".ui.main.CustomerViewDemoActivity" />
     </application>
 
 </manifest>
