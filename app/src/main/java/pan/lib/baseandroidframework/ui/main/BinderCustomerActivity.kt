@@ -17,11 +17,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pan.lib.baseandroidframework.Book
+import pan.lib.baseandroidframework.IOnNewBookArrivedListener
 import pan.lib.baseandroidframework.services.BookManagerService
 
 
 class BinderCustomerActivity : BaseActivity() {
     var iBookManager: IBookManager? = null
+
+    private val mOnNewBookArrivedListener = object : IOnNewBookArrivedListener.Stub() {
+        override fun onNewBookArrived(newBook: Book?) {
+            lifecycleScope.launch(Dispatchers.Main) {
+                new_book.text = "new book arrival $newBook"
+            }
+        }
+    }
+
 
     val deathRecipient: DeathRecipient = object : DeathRecipient {
         override fun binderDied() {
@@ -64,6 +74,14 @@ class BinderCustomerActivity : BaseActivity() {
                 text.text = booksText
             }
 
+        }
+
+        btRegister.setOnClickListener {
+            iBookManager?.registerListener(mOnNewBookArrivedListener)
+        }
+
+        btRemove.setOnClickListener {
+            iBookManager?.unregisterListener(mOnNewBookArrivedListener)
         }
 
     }

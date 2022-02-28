@@ -8,6 +8,11 @@
     android:orientation="vertical"
     tools:context=".ui.main.BinderCustomerActivity">
 
+    <TextView
+        android:id="@+id/new_book"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/btRequestBinder"
         android:layout_width="wrap_content"
@@ -25,6 +30,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="add Book" />
+
+    <Button
+        android:id="@+id/btRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="register observer" />
+
+    <Button
+        android:id="@+id/btRemove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="remove observer" />
 
 
     <TextView

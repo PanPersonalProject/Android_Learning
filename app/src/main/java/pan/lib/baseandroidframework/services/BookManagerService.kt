@@ -3,8 +3,9 @@ package pan.lib.baseandroidframework.services
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
+import android.os.RemoteCallbackList
+import android.os.RemoteException
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import pan.lib.baseandroidframework.Book
@@ -15,24 +16,42 @@ import java.util.concurrent.CopyOnWriteArrayList
 class BookManagerService : Service() {
 
     val books = CopyOnWriteArrayList<Book>()
-    private val booksListener = CopyOnWriteArrayList<IOnNewBookArrivedListener>()
+
+    //跨进程会生成新的对象,但binder对象不变,所以使用RemoteCallbackList,内部数据结构ArrayMap<IBinder, Callback> mCallbacks
+    private val booksListeners = RemoteCallbackList<IOnNewBookArrivedListener>()
+    private var job = Job()
 
     override fun onCreate() {
-        books.add(Book(0, "book_0"))
-        books.add(Book(1, "book_1"))
-      flow {
-            var counter = 2
+        GlobalScope.launch(Dispatchers.Main + job) {
+            flow {
+                var counter = 0
 
-            while (true) {
-                val book = Book(counter, "book_$counter")
-                counter++
-                delay(500) // Suspends the coroutine for some time
-                emit(book)
+                while (true) {
+                    val book = Book(counter, "book_$counter")
+                    counter++
+                    delay(3000)
+                    emit(book)
+                }
+            }.collect {
+                books.add(it)
+                notifyDataChanged(it)
+
             }
-        }.collect {
+        }
 
-      }
     }
+
+    private fun notifyDataChanged(book: Book) {
+        for (i in 0 until booksListeners.beginBroadcast()) {
+            try {
+                booksListeners.getBroadcastItem(i).onNewBookArrived(book)
+            } catch (remoteException: RemoteException) {
+                remoteException.printStackTrace()
+            }
+        }
+        booksListeners.finishBroadcast()
+    }
+
 
     private val serviceBinder = object : IBookManager.Stub() {
         override fun getBookList(): MutableList<Book> {
@@ -46,16 +65,19 @@ class BookManagerService : Service() {
         }
 
         override fun registerListener(listener: IOnNewBookArrivedListener?) {
-            if (!booksListener.contains(listener))
-                booksListener.add(listener)
+            booksListeners.register(listener)
         }
 
         override fun unregisterListener(listener: IOnNewBookArrivedListener?) {
-            if (booksListener.contains(listener))
-                booksListener.remove(listener)
+            booksListeners.unregister(listener)
         }
 
     }
 
     override fun onBind(intent: Intent): IBinder = serviceBinder
+
+    override fun onDestroy() {
+        super.onDestroy()
+        job.cancel()
+    }
 }
