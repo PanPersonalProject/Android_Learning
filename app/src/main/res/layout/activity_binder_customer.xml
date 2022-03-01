@@ -23,7 +23,7 @@
         android:id="@+id/btGetBook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="get book" />
+        android:text="get book ,delay 3s" />
 
     <Button
         android:id="@+id/btAddBook"
@@ -35,7 +35,7 @@
         android:id="@+id/btRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="register observer" />
+        android:text="register observer ,3s refresh" />
 
     <Button
         android:id="@+id/btRemove"

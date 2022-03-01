@@ -2,7 +2,9 @@ package pan.lib.baseandroidframework.services
 
 import android.app.Service
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.IBinder
+import android.os.Parcel
 import android.os.RemoteCallbackList
 import android.os.RemoteException
 import kotlinx.coroutines.*
@@ -54,6 +56,19 @@ class BookManagerService : Service() {
 
 
     private val serviceBinder = object : IBookManager.Stub() {
+
+        override fun onTransact(code: Int, data: Parcel, reply: Parcel?, flags: Int): Boolean {
+            //如果包名不是pan.lib开头,禁止IPC
+            val packagesForUid = packageManager.getPackagesForUid(getCallingUid())
+            if (!packagesForUid.isNullOrEmpty()) {
+                if (!packagesForUid[0].startsWith("pan.lib")) {
+                    return false
+                }
+
+            }
+            return super.onTransact(code, data, reply, flags)
+        }
+
         override fun getBookList(): MutableList<Book> {
             //这里可以模拟耗时操作,阻塞client线程,所以耗时操作不应该
             Thread.sleep(3000)
@@ -72,9 +87,21 @@ class BookManagerService : Service() {
             booksListeners.unregister(listener)
         }
 
+
     }
 
-    override fun onBind(intent: Intent): IBinder = serviceBinder
+    override fun onBind(intent: Intent): IBinder? {
+
+        val check =
+            checkCallingOrSelfPermission("pan.lib.baseandroidframework.ACCESS_BOOK_SERVICE")
+
+        //如果AndroidManifest没有申请ACCESS_BOOK_SERVICE权限则无法绑定
+        if (check == PackageManager.PERMISSION_DENIED) {
+            return null;
+        }
+        return serviceBinder
+
+    }
 
     override fun onDestroy() {
         super.onDestroy()
