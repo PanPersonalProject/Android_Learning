@@ -23,6 +23,7 @@ import pan.lib.baseandroidframework.services.BookManagerService
 
 class BinderCustomerActivity : BaseActivity() {
     var iBookManager: IBookManager? = null
+    var isBind = false
 
     private val mOnNewBookArrivedListener = object : IOnNewBookArrivedListener.Stub() {
         override fun onNewBookArrived(newBook: Book?) {
@@ -43,10 +44,12 @@ class BinderCustomerActivity : BaseActivity() {
         override fun onServiceConnected(name: ComponentName, binder: IBinder) {
             iBookManager = IBookManager.Stub.asInterface(binder)
             binder.linkToDeath(deathRecipient, 0)
+            isBind = true
         }
 
         override fun onServiceDisconnected(name: ComponentName) {
             iBookManager = null
+            isBind = false
         }
     }
 
@@ -94,7 +97,9 @@ class BinderCustomerActivity : BaseActivity() {
 
 
     override fun onDestroy() {
-        unbindService(serviceConnection)
+        if (isBind) {
+            unbindService(serviceConnection)
+        }
         super.onDestroy()
     }
 }

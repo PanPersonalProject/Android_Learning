@@ -1,6 +1,8 @@
 package pan.lib.baseandroidframework.ui.main
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
 import pan.lib.baseandroidframework.R
@@ -22,6 +24,13 @@ class MainActivity : BaseActivity() {
             DexClassLoaderUtil.loadApk(this)
         }
 
+        Looper.getMainLooper().queue.addIdleHandler {
+            return@addIdleHandler false
+        }
+
+        btLeak.setOnClickListener {
+            startActivity<LeakActivity>()
+        }
     }
 
     override fun getLayoutId() = R.layout.activity_main
