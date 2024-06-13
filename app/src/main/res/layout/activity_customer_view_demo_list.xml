@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- res/layout/activity_customer_view_demo_list.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <Button
+        android:id="@+id/button_demo1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Demo 1"/>
+
+    <Button
+        android:id="@+id/button_demo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Demo 2"/>
+
+    <Button
+        android:id="@+id/button_scale_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scale Image"/>
+
+    <Button
+        android:id="@+id/button_multi_touch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Multi Touch"/>
+
+    <Button
+        android:id="@+id/button_paint_multi_touch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Paint Multi Touch"/>
+
+    <Button
+        android:id="@+id/button_two_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Two Page"/>
+
+    <Button
+        android:id="@+id/button_drag_listener"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Drag Listener"/>
+
+    <Button
+        android:id="@+id/button_drag_helper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Drag Helper"/>
+
+    <Button
+        android:id="@+id/button_scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Scroll"/>
+
+    <!-- 确保为CustomerViewDemoActivity.Type中定义的每一个类型都创建了一个Button -->
+
+</LinearLayout>

@@ -18,7 +18,12 @@ class CustomerViewDemoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        when (Type.SCROLL) {
+
+        // 获取传递进来的Type枚举值
+        val typeOrdinal = intent.getIntExtra("TYPE", Type.DEMO1.ordinal)
+        val selectedType = Type.values()[typeOrdinal]
+
+        when (selectedType) {
             Type.DEMO1 -> {
                 setContentView(R.layout.activity_customer_view_demo)
                 picAnimator()

@@ -20,7 +20,7 @@ class MainActivity : BaseActivity() {
         setTitle("首页")
 
         btCustomView.setOnClickListener {
-            startActivity<CustomerViewDemoActivity>()
+            startActivity<CustomerViewDemoListActivity>()
         }
 
         btDexClassLoader.setOnClickListener {

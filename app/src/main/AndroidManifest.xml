@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pan.lib.baseandroidframework">
 
-    <permission-group android:name="${applicationId}.andpermission"/>
+    <permission-group android:name="${applicationId}.andpermission" />
 
     <permission
         android:name="pan.lib.baseandroidframework.ACCESS_BOOK_SERVICE"
@@ -22,6 +22,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.main.CustomerViewDemoListActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.LeakActivity"
             android:exported="false" />
 
@@ -37,8 +40,7 @@
             android:exported="true" />
         <activity
             android:name=".ui.main.BinderCustomerActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true" />
 
         <meta-data
             android:name="android.notch_support"
@@ -49,7 +51,7 @@
 
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
