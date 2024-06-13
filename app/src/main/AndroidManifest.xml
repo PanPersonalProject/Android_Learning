@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pan.lib.baseandroidframework">
 
+    <permission-group android:name="${applicationId}.andpermission"/>
+
     <permission
         android:name="pan.lib.baseandroidframework.ACCESS_BOOK_SERVICE"
         android:protectionLevel="normal" />
