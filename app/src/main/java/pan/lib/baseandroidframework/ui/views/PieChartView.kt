@@ -48,7 +48,7 @@ class PieChartView(context: Context?, attrs: AttributeSet?) : View(context, attr
                 val middleAngle = ((currentAngle + currentAngle + pie.angle) / 2).toDouble()
                 val tranX = cos(Math.toRadians(middleAngle)) * 10.dp2px
                 val tranY = sin(Math.toRadians(middleAngle)) * 10.dp2px
-                canvas.translate(tranX.toFloat(), tranY.toFloat())  //平移画布达到坐标便宜效果
+                canvas.translate(tranX.toFloat(), tranY.toFloat())  //平移画布达到坐标偏移效果
                 canvas.drawArc(rectF, currentAngle, pie.angle, true, paint)
                 canvas.restore()
             } else {

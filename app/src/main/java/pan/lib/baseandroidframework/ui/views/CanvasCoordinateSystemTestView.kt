@@ -14,6 +14,7 @@ import pan.lib.common_lib.utils.makeBitmap
 /**
  * @author pan qi
  * @since 2024/6/15
+ * Canvas平移旋转顺序测试
  */
 class CanvasCoordinateSystemTestView(context: Context, attrs: AttributeSet) :
     View(context, attrs) {
