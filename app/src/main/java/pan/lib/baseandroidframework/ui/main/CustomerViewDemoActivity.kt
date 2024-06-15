@@ -13,7 +13,7 @@ import pan.lib.baseandroidframework.ui.adapter.TopArticleAdapter
 class CustomerViewDemoActivity : AppCompatActivity() {
     enum class Type {
         DEMO1, DEMO2, SCALE_IMAGE, MULTI_TOUCH, PAINT_MULTI_TOUCH, TWO_PAGE, DRAG_LISTENER, DRAG_HELPER,
-        SCROLL
+        SCROLL, CANVAS_COORDINATE_SYSTEM
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,6 +39,7 @@ class CustomerViewDemoActivity : AppCompatActivity() {
                 setContentView(R.layout.activity_customer_view_demo2_scroll)
                 nestedScroll()
             }
+            Type.CANVAS_COORDINATE_SYSTEM -> setContentView(R.layout.activity_canvas_coordinate_system)
         }
     }
 
