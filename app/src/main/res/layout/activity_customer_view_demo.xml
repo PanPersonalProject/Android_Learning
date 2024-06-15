@@ -1,54 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
     tools:context=".ui.main.CustomerViewDemoActivity">
 
-    <GridLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:orientation="horizontal"
-        android:visibility="visible">
-
-        <pan.lib.baseandroidframework.ui.views.DashBoardView
-            android:layout_width="160dp"
-            android:layout_height="160dp" />
-
-        <pan.lib.baseandroidframework.ui.views.PieChartView
-            android:layout_width="160dp"
-            android:layout_height="160dp" />
-
-        <pan.lib.baseandroidframework.ui.views.CircleImageView
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:src="@mipmap/bj" />
-
-        <pan.lib.baseandroidframework.ui.views.SportsView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <pan.lib.baseandroidframework.ui.views.CameraView
-            android:id="@+id/cameraView"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_marginTop="@dimen/dp_10"
-            android:src="@mipmap/bj" />
-    </GridLayout>
-
-
-    <pan.lib.baseandroidframework.ui.views.MaterialEditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:hint="input account"
-        android:textColorHint="@android:color/darker_gray"
-        android:textSize="15sp" />
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <pan.lib.baseandroidframework.ui.views.DashBoardView
+                android:layout_width="160dp"
+                android:layout_height="160dp" />
+
+            <pan.lib.baseandroidframework.ui.views.PieChartView
+                android:layout_width="160dp"
+                android:layout_height="160dp" />
+
+            <pan.lib.baseandroidframework.ui.views.CircleImageView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:src="@mipmap/bj" />
+
+            <pan.lib.baseandroidframework.ui.views.SportsView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <pan.lib.baseandroidframework.ui.views.CameraView
+                android:id="@+id/cameraView"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_marginTop="@dimen/dp_10"
+                android:src="@mipmap/bj" />
+        </GridLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义MaterialEditText" />
+
+        <pan.lib.baseandroidframework.ui.views.MaterialEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="input account"
+            android:textColorHint="@android:color/darker_gray"
+            android:textSize="15sp" />
 
 
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义网格Drawable" />
+
+        <pan.lib.baseandroidframework.ui.views.DrawableView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="10dp" />
+    </LinearLayout>
+
+</ScrollView>
 
