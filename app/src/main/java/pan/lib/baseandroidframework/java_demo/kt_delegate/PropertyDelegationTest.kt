@@ -15,11 +15,16 @@ class Delegate1: ReadOnlyProperty<Any, String> {
  * 实现ReadWriteProperty接口，支持var属性的读写委托。
  */
 class Delegate2: ReadWriteProperty<Any, Int> {
-    override fun getValue(thisRef: Any, property: KProperty<*>) = 20
+    private var storedValue: Int = 0 // 初始化存储值
+
+    override fun getValue(thisRef: Any, property: KProperty<*>) = storedValue // 返回存储的值
+
     override fun setValue(thisRef: Any, property: KProperty<*>, value: Int) {
-        println("委托属性:${property.name}, 值:$value")
+        println("委托属性:${property.name}, 设置值:$value")
+        storedValue = value // 更新存储的值
     }
 }
+
 
 /**
  * 测试类，包含委托属性d1和d2。
@@ -32,6 +37,6 @@ class Test {
 fun main() {
     val test = Test()
     println(test.d1) // 读取委托的值
-    println(test.d2)
     test.d2 = 100   // 修改委托属性值
+    println(test.d2)
 }
