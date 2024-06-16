@@ -89,6 +89,10 @@
 
     </pan.lib.baseandroidframework.ui.views.FollowLayout>
 
+    <pan.lib.baseandroidframework.ui.views.CircleView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <pan.lib.baseandroidframework.ui.views.TouchStudyFrameLayout
         android:layout_width="200dp"
         android:layout_height="200dp"

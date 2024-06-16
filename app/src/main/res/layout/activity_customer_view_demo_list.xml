@@ -11,37 +11,37 @@
         android:id="@+id/button_demo1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Demo 1"/>
+        android:text="各种自定义View"/>
 
     <Button
         android:id="@+id/button_demo2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Demo 2"/>
+        android:text="控件测量Demo"/>
 
     <Button
         android:id="@+id/button_scale_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Scale Image"/>
+        android:text="手势缩放imageview"/>
 
     <Button
         android:id="@+id/button_multi_touch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Multi Touch"/>
+        android:text="多指拖动imageview"/>
 
     <Button
         android:id="@+id/button_paint_multi_touch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Paint Multi Touch"/>
+        android:text="多指触控画笔"/>
 
     <Button
         android:id="@+id/button_two_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Two Page"/>
+        android:text="自定义viewpager"/>
 
     <Button
         android:id="@+id/button_drag_listener"
