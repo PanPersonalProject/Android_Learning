@@ -5,8 +5,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 /**
  * AUTHOR Pan Created on 2022/1/5
  * ReentrantReadWriteLock
- * 线程进入读锁的前提条件  没有其他线程的写锁
- * 线程进入写锁的前提条件 没有其他线程的读锁
+ * 线程进入读锁的前提条件  没有其他线程的写锁。 写的时候，其他线程既不能读也不能写
+ * 线程进入写锁的前提条件 没有其他线程的读锁。  读的时候，其他线程可以读但不能写
  */
 public class ReadWriteLockDemo {
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();

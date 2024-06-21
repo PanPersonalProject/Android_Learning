@@ -6,6 +6,7 @@ import kotlinx.android.synthetic.main.activity_main.btCustomView
 import kotlinx.android.synthetic.main.activity_main.btDexClassLoader
 import kotlinx.android.synthetic.main.activity_main.btDynamicProxy
 import kotlinx.android.synthetic.main.activity_main.btLeak
+import kotlinx.android.synthetic.main.activity_main.btRecyclerViewDemo
 import org.jetbrains.anko.startActivity
 import pan.lib.baseandroidframework.R
 import pan.lib.baseandroidframework.java_demo.dex_class_loader.DexClassLoaderUtil
@@ -38,6 +39,9 @@ class MainActivity : BaseActivity() {
         btDynamicProxy.setOnClickListener {
             dynamicProxyExample()
 
+        }
+        btRecyclerViewDemo.setOnClickListener {
+            startActivity<RecyclerviewDemoActivity>()
         }
     }
 
