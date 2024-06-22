@@ -1,4 +1,4 @@
-package pan.lib.baseandroidframework.java_demo.pxjava_demo
+package pan.lib.baseandroidframework.java_demo.rxjava_demo
 
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
