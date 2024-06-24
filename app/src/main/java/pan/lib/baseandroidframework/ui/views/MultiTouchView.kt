@@ -15,6 +15,7 @@ import pan.lib.common_lib.utils.printSimpleLog
 
 /**
  * AUTHOR Pan Created on 2021/12/27
+ * 多点触控demo
  */
 class MultiTouchView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 

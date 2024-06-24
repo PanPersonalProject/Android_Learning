@@ -155,7 +155,7 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
                 transX = scroller.currX.toFloat()
                 transY = scroller.currY.toFloat()
                 invalidate()
-                postOnAnimation(this)
+                postOnAnimation(this)//post是立即去主线程执行,postOnAnimations是下一帧调用run方法
             }
 
         }
