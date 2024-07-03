@@ -8,14 +8,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_demo_recyclerview.recyclerView
-import pan.lib.baseandroidframework.R
+import pan.lib.baseandroidframework.databinding.ActivityDemoRecyclerviewBinding
 import pan.lib.baseandroidframework.ui.adapter.DemoRvAdapter
 import pan.lib.baseandroidframework.ui.adapter.User
 import pan.lib.common_lib.utils.printLog
 
 class RecyclerviewDemoActivity : AppCompatActivity() {
-
+    private lateinit var binding: ActivityDemoRecyclerviewBinding
     private val oldList = listOf(
         User(1, "Alice", 30),
         User(2, "Bob", 30),
@@ -33,10 +32,11 @@ class RecyclerviewDemoActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_demo_recyclerview)
+        binding = ActivityDemoRecyclerviewBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
         val adapter = DemoRvAdapter {
             printLog("点击内容$it")
         }
@@ -51,7 +51,7 @@ class RecyclerviewDemoActivity : AppCompatActivity() {
          * 而触发不必要的布局重新计算（`requestLayout`调用），从而有效减少资源消耗，
          * 提升界面渲染性能，尤其是在包含大量或复杂Item的场景下更为显著。
          */
-        recyclerView.setHasFixedSize(true)
+        binding.recyclerView.setHasFixedSize(true)
 
 
         /**
@@ -59,12 +59,12 @@ class RecyclerviewDemoActivity : AppCompatActivity() {
          * 可以多个复用recyclerview复用一个RecycledViewPool，避免重复创建
          */
         val recyclerViewPool = RecyclerView.RecycledViewPool()
-        recyclerView.setRecycledViewPool(recyclerViewPool)
+        binding.recyclerView.setRecycledViewPool(recyclerViewPool)
 
 
         val dividerDecoration = DividerDecoration(16)
-        recyclerView.addItemDecoration(dividerDecoration)
-        recyclerView.adapter = adapter
+        binding.recyclerView.addItemDecoration(dividerDecoration)
+        binding.recyclerView.adapter = adapter
 
 
         mockData(adapter)
@@ -74,7 +74,7 @@ class RecyclerviewDemoActivity : AppCompatActivity() {
         adapter.submitList(lifecycleScope, oldList, false)
 
         // 3秒后更新数据,通过DiffUtil计算
-        recyclerView.postDelayed({
+        binding.recyclerView.postDelayed({
             adapter.submitList(lifecycleScope, newList, true)
         }, 500)
 

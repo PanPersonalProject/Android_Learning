@@ -1,34 +1,34 @@
 package pan.lib.baseandroidframework.ui.main
 
-import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_binder_customer.*
-import pan.lib.baseandroidframework.IBookManager
-import pan.lib.baseandroidframework.R
-import pan.lib.common_lib.base.BaseActivity
 import android.content.ComponentName
 import android.content.Intent
-
-import android.os.IBinder
-
 import android.content.ServiceConnection
+import android.os.Bundle
+import android.os.IBinder
 import android.os.IBinder.DeathRecipient
+import android.view.LayoutInflater
+import android.view.View
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import pan.lib.baseandroidframework.Book
+import pan.lib.baseandroidframework.IBookManager
 import pan.lib.baseandroidframework.IOnNewBookArrivedListener
+import pan.lib.baseandroidframework.databinding.ActivityBinderCustomerBinding
 import pan.lib.baseandroidframework.services.BookManagerService
+import pan.lib.common_lib.base.BaseActivity
 
 
 class BinderCustomerActivity : BaseActivity() {
+    private lateinit var binding: ActivityBinderCustomerBinding
     var iBookManager: IBookManager? = null
     var isBind = false
 
     private val mOnNewBookArrivedListener = object : IOnNewBookArrivedListener.Stub() {
         override fun onNewBookArrived(newBook: Book?) {
             lifecycleScope.launch(Dispatchers.Main) {
-                new_book.text = "new book arrival $newBook"
+                binding.newBook.text = "new book arrival $newBook"
             }
         }
     }
@@ -53,37 +53,41 @@ class BinderCustomerActivity : BaseActivity() {
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.activity_binder_customer
+
+    override fun getLayout(layoutInflater: LayoutInflater): View {
+        binding = ActivityBinderCustomerBinding.inflate(layoutInflater)
+        return binding.root
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTitle("Binder")
-        btRequestBinder.setOnClickListener {
+        binding.btRequestBinder.setOnClickListener {
             bindBookManagerService()
         }
 
-        btAddBook.setOnClickListener {
+        binding.btAddBook.setOnClickListener {
             iBookManager?.addBook(Book(2, "book_2"))
         }
 
-        btGetBook.setOnClickListener {
+        binding.btGetBook.setOnClickListener {
 
             lifecycleScope.launch {
                 val booksText = withContext(Dispatchers.IO) {
                     //binder请求会挂起线程 所以耗时操作不能在UI线程执行
                     iBookManager?.bookList
                 }.toString()
-                text.text = booksText
+                binding.text.text = booksText
             }
 
         }
 
-        btRegister.setOnClickListener {
+        binding.btRegister.setOnClickListener {
             iBookManager?.registerListener(mOnNewBookArrivedListener)
         }
 
-        btRemove.setOnClickListener {
+        binding.btRemove.setOnClickListener {
             iBookManager?.unregisterListener(mOnNewBookArrivedListener)
         }
 

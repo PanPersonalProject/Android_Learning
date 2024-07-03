@@ -5,10 +5,11 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_customer_view_demo.*
-import kotlinx.android.synthetic.main.activity_customer_view_demo2_scroll.*
+import androidx.recyclerview.widget.RecyclerView
+
 import pan.lib.baseandroidframework.R
 import pan.lib.baseandroidframework.ui.adapter.TopArticleAdapter
+import pan.lib.baseandroidframework.ui.views.CameraView
 
 class CustomerViewDemoActivity : AppCompatActivity() {
     enum class Type {
@@ -45,6 +46,7 @@ class CustomerViewDemoActivity : AppCompatActivity() {
 
     //DEMO1
     private fun picAnimator() {
+        val cameraView=findViewById<CameraView>(R.id.cameraView)
         val bottomFlipAnimator = ObjectAnimator.ofFloat(cameraView, "bottomFlip", 45f)
         bottomFlipAnimator.duration = 1500
 
@@ -70,6 +72,7 @@ class CustomerViewDemoActivity : AppCompatActivity() {
             }
             setNewInstance(list)
         }
+        val scrollRecyclerView = findViewById<RecyclerView>(R.id.scrollRecyclerView)
         scrollRecyclerView.adapter = topArticleAdapter
 
     }

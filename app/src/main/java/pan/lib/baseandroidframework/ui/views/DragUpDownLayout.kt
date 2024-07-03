@@ -8,16 +8,18 @@ import android.view.ViewConfiguration
 import android.widget.FrameLayout
 import androidx.core.view.ViewCompat
 import androidx.customview.widget.ViewDragHelper
-import kotlinx.android.synthetic.main.activity_customer_view_demo2_drag_up_down.view.*
+import pan.lib.baseandroidframework.R
 import kotlin.math.abs
 
 /**
  * AUTHOR Pan Created on 2022/1/3
  */
 class DragUpDownLayout(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
-    var dragListener: ViewDragHelper.Callback = DragListener()
+    private var dragListener: ViewDragHelper.Callback = DragListener()
     var dragHelper: ViewDragHelper = ViewDragHelper.create(this, dragListener)
     val viewConfiguration: ViewConfiguration = ViewConfiguration.get(context)
+
+    private val view: View by lazy { findViewById(R.id.view) }
 
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {

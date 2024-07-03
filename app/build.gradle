@@ -68,6 +68,13 @@ android {
         freeCompilerArgs = ['-Xjvm-default=enable']
         jvmTarget = JavaVersion.VERSION_11
     }
+    buildFeatures {
+        aidl true
+        viewBinding = true
+        buildConfig = true
+    }
+
+    namespace 'pan.lib.baseandroidframework'
 
 
 }

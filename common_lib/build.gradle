@@ -26,11 +26,15 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-
+    buildFeatures {
+        viewBinding = true
+        buildConfig = true
+    }
     kotlinOptions {
         freeCompilerArgs = ['-Xjvm-default=enable']
         jvmTarget = JavaVersion.VERSION_11
     }
+    namespace 'pan.lib.common_lib'
 }
 
 dependencies {
