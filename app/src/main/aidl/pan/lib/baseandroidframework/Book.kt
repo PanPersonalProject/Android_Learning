@@ -1,7 +1,7 @@
 package pan.lib.baseandroidframework
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * AUTHOR Pan Created on 2022/2/26

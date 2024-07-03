@@ -54,10 +54,10 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
 
 
     @SuppressLint("ClickableViewAccessibility")
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
+    override fun onTouchEvent(event: MotionEvent): Boolean {
         var result = scaleDetector.onTouchEvent(event)
         if (!scaleDetector.isInProgress) {
-            result = gestureDetector.onTouchEvent(event);
+            result = gestureDetector.onTouchEvent(event)
         }
         return result
     }
@@ -90,12 +90,15 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
         GestureDetector.SimpleOnGestureListener(), ScaleGestureDetector.OnScaleGestureListener,
         Runnable {
         var originScale = 0f
-        override fun onDown(e: MotionEvent?): Boolean {
+        override fun onDown(e: MotionEvent): Boolean {
             return true // 每次 ACTION_DOWN 事件出现的时候都会被调⽤，在这⾥返回 true 可以保证必然消费掉,确保后续MOVE UP操作
         }
 
         override fun onScroll(
-            e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float
+            e1: MotionEvent?,
+            e2: MotionEvent,
+            distanceX: Float,
+            distanceY: Float
         ): Boolean {
 
             if (isBig) {
@@ -113,7 +116,10 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
         }
 
         override fun onFling(
-            e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float
+            e1: MotionEvent?,
+            e2: MotionEvent,
+            velocityX: Float,
+            velocityY: Float
         ): Boolean {
             //第⼀个事件是⽤户按下时的 ACTION_DOWN 事件，第⼆个事件是当前事件
             if (isBig) {
@@ -130,7 +136,7 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
                     (bigHeight - height) / 2
                 )
                 printSimpleLog("onFling transX=$transX,transY=$transY")
-                printSimpleLog("e1 ${e1.x}  ${e1.y}  e2 ${e2.x}  ${e2.y}")
+                printSimpleLog("e1 ${e1?.x}  ${e1?.y}  e2 ${e2.x}  ${e2.y}")
 
                 postOnAnimation(this)
 
@@ -139,7 +145,7 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
             return super.onFling(e1, e2, velocityX, velocityY)
         }
 
-        override fun onDoubleTap(e: MotionEvent?): Boolean {
+        override fun onDoubleTap(e: MotionEvent): Boolean {
             isBig = !isBig
             scaleAnimator.cancel()
             if (isBig) {
@@ -166,12 +172,12 @@ class ScalableImageView(context: Context, attrs: AttributeSet?) : View(context, 
             return false
         }
 
-        override fun onScaleBegin(detector: ScaleGestureDetector?): Boolean {
+        override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
             originScale = currentScale
             return true
         }
 
-        override fun onScaleEnd(detector: ScaleGestureDetector?) {
+        override fun onScaleEnd(detector: ScaleGestureDetector) {
             originScale = 0f
         }
 

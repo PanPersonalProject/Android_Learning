@@ -15,7 +15,7 @@ import kotlin.math.abs
 /**
  * AUTHOR Pan Created on 2022/1/1
  */
-class TwoPagerView(context: Context?, attrs: AttributeSet?) : ViewGroup(context, attrs) {
+class TwoPagerView(context: Context, attrs: AttributeSet) : ViewGroup(context, attrs) {
     private var currentPage = 0
     private var downX = 0f
     private var downY = 0f

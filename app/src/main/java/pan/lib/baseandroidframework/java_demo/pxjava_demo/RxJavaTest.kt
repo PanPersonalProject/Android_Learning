@@ -25,11 +25,11 @@ class RxJavaTest {
                     println("isDisposed=" + d.isDisposed)
                 }
 
-                override fun onSuccess(t: String?) {
+                override fun onSuccess(t: String) {
                     println(t)
                 }
 
-                override fun onError(e: Throwable?) {
+                override fun onError(e: Throwable) {
                 }
             })
 

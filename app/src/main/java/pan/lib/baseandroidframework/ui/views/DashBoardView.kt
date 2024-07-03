@@ -16,7 +16,7 @@ class  DashBoardView(context: Context, attrs: AttributeSet?) : View(context, att
     private val rectF = RectF()
     private lateinit var pathDashPathEffect: PathDashPathEffect
     private val dashPath = Path()
-    var arcLength: Float = 0f
+    private var arcLength: Float = 0f
 
     init {
         paint.style = Paint.Style.STROKE

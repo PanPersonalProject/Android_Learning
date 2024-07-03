@@ -60,7 +60,4 @@ class CircleImageView(context: Context, attrs: AttributeSet?) : AppCompatImageVi
 
     }
 
-    override fun dispatchDraw(canvas: Canvas?) {
-        super.dispatchDraw(canvas)
-    }
 }
