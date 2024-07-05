@@ -1,52 +1,84 @@
 package pan.lib.baseandroidframework.ui.main
 
+import android.content.res.Configuration
 import android.os.Bundle
-import android.os.Looper
-import android.view.LayoutInflater
-import android.view.View
-
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.anko.startActivity
-import pan.lib.baseandroidframework.databinding.ActivityMainBinding
 import pan.lib.baseandroidframework.java_demo.dex_class_loader.DexClassLoaderUtil
 import pan.lib.baseandroidframework.java_demo.dynamic_proxy.dynamicProxyExample
-import pan.lib.common_lib.base.BaseActivity
+import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
+import pan.lib.baseandroidframework.ui.theme.Android_LearningTheme
 
-class MainActivity : BaseActivity() {
-
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTitle("首页")
-
-        binding.btCustomView.setOnClickListener {
-            startActivity<CustomerViewDemoListActivity>()
+        enableEdgeToEdge()
+        setContent {
+            MainScreen()
         }
 
-        binding.btDexClassLoader.setOnClickListener {
-            DexClassLoaderUtil.loadApk(this)
-        }
+    }
 
-        Looper.getMainLooper().queue.addIdleHandler {
-            return@addIdleHandler false
-        }
-
-        binding.btLeak.setOnClickListener {
-            startActivity<LeakActivity>()
-        }
-
-        binding.btDynamicProxy.setOnClickListener {
-            dynamicProxyExample()
-
-        }
-        binding.btRecyclerViewDemo.setOnClickListener {
-            startActivity<RecyclerviewDemoActivity>()
+    @Preview(
+        uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL,
+        backgroundColor = 0xFFFFEAEE,
+        showBackground = true
+    )
+    @Composable
+    private fun MainScreen() {
+        Android_LearningTheme {
+            MainScaffold(title = "AndroidLearning") {
+                MenuList()
+            }
         }
     }
 
-    override fun getLayout(layoutInflater: LayoutInflater): View {
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        return binding.root
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun TopBar() {
+        CenterAlignedTopAppBar(title = { Text("AndroidLearning") })
+    }
+
+    @Composable
+    fun MenuList() {
+        val context = LocalContext.current
+
+        Column(
+            modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Button(onClick = { startActivity<CustomerViewDemoListActivity>() }) {
+                Text(text = "自定义View列表")
+            }
+            Button(onClick = {
+                DexClassLoaderUtil.loadApk(context)
+            }) {
+                Text(text = "DexClassLoader")
+            }
+            Button(onClick = { startActivity<LeakActivity>() }) {
+                Text(text = "内存泄漏测试")
+            }
+            Button(onClick = { dynamicProxyExample() }) {
+                Text(text = "动态代理测试")
+            }
+            Button(onClick = { startActivity<RecyclerviewDemoActivity>() }) {
+                Text(text = "RecyclerViewDiffUtil")
+            }
+        }
     }
 
 

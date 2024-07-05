@@ -12,9 +12,17 @@ import pan.lib.baseandroidframework.ui.adapter.TopArticleAdapter
 import pan.lib.baseandroidframework.ui.views.CameraView
 
 class CustomerViewDemoActivity : AppCompatActivity() {
-    enum class Type {
-        DEMO1, DEMO2, SCALE_IMAGE, MULTI_TOUCH, PAINT_MULTI_TOUCH, TWO_PAGE, DRAG_LISTENER, DRAG_HELPER,
-        SCROLL, CANVAS_COORDINATE_SYSTEM
+    enum class Type(val displayName: String) {
+        DEMO1("各种自定义View"),
+        DEMO2("控件测量Demo"),
+        SCALE_IMAGE("手势缩放imageview"),
+        MULTI_TOUCH("多指拖动imageview"),
+        PAINT_MULTI_TOUCH("多指触控画笔"),
+        TWO_PAGE("自定义viewpager"),
+        DRAG_LISTENER("Drag Listener"),
+        DRAG_HELPER("Drag Helper"),
+        SCROLL("Scroll"),
+        CANVAS_COORDINATE_SYSTEM("canvas坐标系测试")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +30,7 @@ class CustomerViewDemoActivity : AppCompatActivity() {
 
         // 获取传递进来的Type枚举值
         val typeOrdinal = intent.getIntExtra("TYPE", Type.DEMO1.ordinal)
-        val selectedType = Type.values()[typeOrdinal]
+        val selectedType = Type.entries[typeOrdinal]
 
         when (selectedType) {
             Type.DEMO1 -> {

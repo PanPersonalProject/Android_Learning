@@ -3,6 +3,7 @@ plugins {
     id(libs.plugins.kotlinAndroid.get().pluginId)
     id("kotlin-kapt")
     id("kotlin-parcelize")
+    alias(libs.plugins.compose.compiler)
 }
 
 
@@ -19,6 +20,9 @@ android {
 
         ndk {
             abiFilters.add("arm64-v8a")
+        }
+        vectorDrawables {
+            useSupportLibrary = true
         }
 
         kapt {
@@ -74,6 +78,13 @@ android {
         aidl = true
         viewBinding = true
         buildConfig = true
+        compose = true
+    }
+
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 
 }
@@ -84,6 +95,19 @@ dependencies {
     debugImplementation(libs.leakcanaryAndroid)
     implementation(libs.rxjava)
     implementation(libs.rxandroid)
+
+
+    implementation(libs.lifecycleRuntimeKtx)
+    implementation(libs.activityCompose)
+    implementation(platform(libs.composeBom))
+    implementation(libs.ui)
+    implementation(libs.uiGraphics)
+    implementation(libs.uiToolingPreview)
+    implementation(libs.material3)
+    androidTestImplementation(platform(libs.composeBom))
+    androidTestImplementation(libs.uiTestJunit4)
+    debugImplementation(libs.uiTooling)
+    debugImplementation(libs.uiTestManifest)
 }
 
 tasks.register<Delete>("cleanTest") {
