@@ -22,7 +22,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".ui.main.compose_demo.ComposeListDemoActivity"
+            android:name=".ui.main.compose_demo.listview.ComposeListViewDemoActivity"
             android:exported="false" />
 
         <activity

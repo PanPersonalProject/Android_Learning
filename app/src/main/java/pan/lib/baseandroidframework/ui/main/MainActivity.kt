@@ -18,7 +18,7 @@ import org.jetbrains.anko.startActivity
 import pan.lib.baseandroidframework.java_demo.dex_class_loader.DexClassLoaderUtil
 import pan.lib.baseandroidframework.java_demo.dynamic_proxy.dynamicProxyExample
 import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
-import pan.lib.baseandroidframework.ui.main.compose_demo.ComposeListDemoActivity
+import pan.lib.baseandroidframework.ui.main.compose_demo.listview.ComposeListViewDemoActivity
 import pan.lib.baseandroidframework.ui.theme.AndroidLearningTheme
 
 class MainActivity : ComponentActivity() {
@@ -72,7 +72,7 @@ class MainActivity : ComponentActivity() {
                 Text(text = "RecyclerViewDiffUtil")
             }
 
-            Button(onClick = { startActivity<ComposeListDemoActivity>() }) {
+            Button(onClick = { startActivity<ComposeListViewDemoActivity>() }) {
                 Text(text = "ComposeListDemo")
             }
         }
