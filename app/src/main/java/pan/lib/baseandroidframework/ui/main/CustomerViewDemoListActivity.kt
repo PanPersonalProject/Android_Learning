@@ -40,7 +40,7 @@ class CustomerViewDemoListActivity : ComponentActivity() {
     @Composable
     private fun MainScreen() {
         AndroidLearningTheme {
-            MainScaffold(title = "AndroidLearning") {
+            MainScaffold(title = "自定义view列表", onNavigateBack = { finish() }) {
                 DemoListScreen { type ->
                     val intent = Intent(this, CustomerViewDemoActivity::class.java)
                     intent.putExtra("TYPE", type.ordinal)

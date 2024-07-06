@@ -40,7 +40,10 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun MainScreen() {
         AndroidLearningTheme {
-            MainScaffold(title = "AndroidLearning") {
+            MainScaffold(
+                title = "AndroidLearning",
+                needShowArrowBack = false,
+            ) {
                 MenuList()
             }
         }
@@ -57,6 +60,14 @@ class MainActivity : ComponentActivity() {
             Button(onClick = { startActivity<CustomerViewDemoListActivity>() }) {
                 Text(text = "自定义View列表")
             }
+            Button(onClick = { startActivity<RecyclerviewDemoActivity>() }) {
+                Text(text = "RecyclerViewDiffUtil")
+            }
+
+            Button(onClick = { startActivity<ComposeListViewDemoActivity>() }) {
+                Text(text = "ComposeListDemo")
+            }
+
             Button(onClick = {
                 DexClassLoaderUtil.loadApk(context)
             }) {
@@ -68,13 +79,7 @@ class MainActivity : ComponentActivity() {
             Button(onClick = { dynamicProxyExample() }) {
                 Text(text = "动态代理测试")
             }
-            Button(onClick = { startActivity<RecyclerviewDemoActivity>() }) {
-                Text(text = "RecyclerViewDiffUtil")
-            }
 
-            Button(onClick = { startActivity<ComposeListViewDemoActivity>() }) {
-                Text(text = "ComposeListDemo")
-            }
         }
     }
 

@@ -63,7 +63,7 @@ class ComposeListViewDemoActivity : ComponentActivity() {
     @Composable
     private fun MainScreen(messages: SnapshotStateList<Message>) {
         AndroidLearningTheme {
-            MainScaffold {
+            MainScaffold(title = "消息列表", onNavigateBack = { finish() }) {
                 if (messages.isEmpty()) {
                     //如果数据为空，则显示加载中
                     Box(
