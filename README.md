@@ -1,6 +1,6 @@
-<h1 align="center">BaseAndroidFramework</h1>
+<h1 align="center">Android_Learning</h1>
 <p align="center">  
-实践是最好的学习
+个人学习使用的DEMO
 </p>
 
 
