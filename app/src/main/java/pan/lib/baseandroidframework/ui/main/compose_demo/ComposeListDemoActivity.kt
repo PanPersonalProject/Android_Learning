@@ -35,6 +35,9 @@ import androidx.compose.ui.unit.dp
 import pan.lib.baseandroidframework.R
 import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
 import pan.lib.baseandroidframework.ui.theme.AndroidLearningTheme
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.layout.Arrangement
 
 class ComposeListDemoActivity : ComponentActivity() {
 
@@ -84,6 +87,11 @@ class ComposeListDemoActivity : ComponentActivity() {
             Spacer(modifier = Modifier.width(8.dp))
 
             var isExpanded by remember { mutableStateOf(false) }
+            // surfaceColor will be updated gradually from one color to the other
+            val surfaceColor by animateColorAsState(
+                if (isExpanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+                label = "",
+            )
 
             Column(modifier = Modifier.clickable { isExpanded = !isExpanded }) {
                 Text(
@@ -97,6 +105,12 @@ class ComposeListDemoActivity : ComponentActivity() {
                 Surface(
                     shape = MaterialTheme.shapes.medium,
                     shadowElevation = 1.dp,
+                    // surfaceColor color will be changing gradually from primary to surface
+                    color = surfaceColor,
+                    // animateContentSize will change the Surface size gradually
+                    modifier = Modifier
+                        .animateContentSize()
+                        .padding(1.dp)
                 ) {
                     Text(
                         text = msg.body,
@@ -111,7 +125,8 @@ class ComposeListDemoActivity : ComponentActivity() {
 
     @Composable
     fun Conversation(messages: List<Message>) {
-        LazyColumn {
+        //增加item垂直间距
+        LazyColumn(verticalArrangement = Arrangement.spacedBy(5.dp)) {
             items(messages) {
                 MessageCard(it)
             }
