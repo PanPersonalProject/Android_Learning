@@ -18,7 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
-import pan.lib.baseandroidframework.ui.theme.Android_LearningTheme
+import pan.lib.baseandroidframework.ui.theme.AndroidLearningTheme
 
 class CustomerViewDemoListActivity : ComponentActivity() {
 
@@ -39,7 +39,7 @@ class CustomerViewDemoListActivity : ComponentActivity() {
     )
     @Composable
     private fun MainScreen() {
-        Android_LearningTheme {
+        AndroidLearningTheme {
             MainScaffold(title = "AndroidLearning") {
                 DemoListScreen { type ->
                     val intent = Intent(this, CustomerViewDemoActivity::class.java)

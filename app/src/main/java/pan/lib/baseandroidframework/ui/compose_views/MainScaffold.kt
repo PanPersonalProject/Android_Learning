@@ -19,11 +19,15 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun MainScaffold(
-    title: String,
+    title: String = "",
     content: @Composable (innerPadding: Modifier) -> Unit
 ) {
     Scaffold(
-        topBar = { TopBar(title) },
+        topBar = {
+            if (title.isNotEmpty()) {
+                TopBar(title)
+            }
+        },
         modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         Box(

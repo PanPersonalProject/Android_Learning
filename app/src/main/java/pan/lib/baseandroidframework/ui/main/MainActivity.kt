@@ -8,8 +8,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +18,8 @@ import org.jetbrains.anko.startActivity
 import pan.lib.baseandroidframework.java_demo.dex_class_loader.DexClassLoaderUtil
 import pan.lib.baseandroidframework.java_demo.dynamic_proxy.dynamicProxyExample
 import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
-import pan.lib.baseandroidframework.ui.theme.Android_LearningTheme
+import pan.lib.baseandroidframework.ui.main.compose_demo.ComposeListDemoActivity
+import pan.lib.baseandroidframework.ui.theme.AndroidLearningTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -40,19 +39,13 @@ class MainActivity : ComponentActivity() {
     )
     @Composable
     private fun MainScreen() {
-        Android_LearningTheme {
+        AndroidLearningTheme {
             MainScaffold(title = "AndroidLearning") {
                 MenuList()
             }
         }
     }
 
-
-    @OptIn(ExperimentalMaterial3Api::class)
-    @Composable
-    fun TopBar() {
-        CenterAlignedTopAppBar(title = { Text("AndroidLearning") })
-    }
 
     @Composable
     fun MenuList() {
@@ -77,6 +70,10 @@ class MainActivity : ComponentActivity() {
             }
             Button(onClick = { startActivity<RecyclerviewDemoActivity>() }) {
                 Text(text = "RecyclerViewDiffUtil")
+            }
+
+            Button(onClick = { startActivity<ComposeListDemoActivity>() }) {
+                Text(text = "ComposeListDemo")
             }
         }
     }
