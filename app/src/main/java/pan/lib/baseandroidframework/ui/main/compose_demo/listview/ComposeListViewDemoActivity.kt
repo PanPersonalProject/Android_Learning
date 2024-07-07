@@ -25,9 +25,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -63,7 +66,7 @@ class ComposeListViewDemoActivity : ComponentActivity() {
     @Composable
     private fun MainScreen(messages: SnapshotStateList<Message>) {
         AndroidLearningTheme {
-            MainScaffold(title = "消息列表", onNavigateBack = { finish() }) {
+            MainScaffold(title = "消息列表(支持下拉刷新)", onNavigateBack = { finish() }) {
                 if (messages.isEmpty()) {
                     //如果数据为空，则显示加载中
                     Box(
@@ -148,12 +151,26 @@ class ComposeListViewDemoActivity : ComponentActivity() {
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun Conversation(messages: List<Message>) {
-        //增加item垂直间距
-        LazyColumn(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-            items(messages) {
-                MessageCard(it)
+        val state = rememberPullToRefreshState()
+        val onRefresh: () -> Unit = {
+            viewModel.requestMockMessages()
+        }
+        val isRefreshing by viewModel.isRefreshing // 是否正在刷新
+
+        PullToRefreshBox(
+            modifier = Modifier.padding(5.dp),
+            state = state,
+            isRefreshing = isRefreshing,
+            onRefresh = onRefresh,
+        ) {
+            //增加item垂直间距
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(5.dp)) {
+                items(messages) {
+                    MessageCard(it)
+                }
             }
         }
     }

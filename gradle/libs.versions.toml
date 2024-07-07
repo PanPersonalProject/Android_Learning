@@ -12,6 +12,7 @@ baseAndroidFramework = "master-SNAPSHOT"
 lifecycleRuntimeKtx = "2.8.3"
 activityCompose = "1.9.0"
 composeBom = "2024.06.00"
+material3="1.3.0-beta04"
 
 [libraries]
 
@@ -30,7 +31,7 @@ uiTooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 uiToolingPreview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 uiTestManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 uiTestJunit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
-material3 = { group = "androidx.compose.material3", name = "material3" }
+material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
