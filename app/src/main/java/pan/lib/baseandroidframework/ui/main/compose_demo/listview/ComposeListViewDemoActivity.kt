@@ -5,24 +5,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -30,76 +28,68 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
 import pan.lib.baseandroidframework.R
 import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
 import pan.lib.baseandroidframework.ui.theme.AndroidLearningTheme
+import pan.lib.common_lib.utils.printSimpleLog
 
+/*
+ * compose列表
+ * 使用paging实现分页功能
+ * 使用PullToRefreshBox实现下拉刷新
+ * compose paging文档：https://developer.android.com/reference/kotlin/androidx/paging/compose/package-summary
+ */
 class ComposeListViewDemoActivity : ComponentActivity() {
-
-    private val viewModel by viewModels<ListViewModel>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MainScreen(viewModel.messages)
+            MainScreen()
         }
-        viewModel.requestMockMessages()
     }
 
 
     @Composable
-    private fun MainScreen(messages: SnapshotStateList<Message>) {
+    private fun MainScreen(viewModel: ListViewModel = viewModel()) {
         AndroidLearningTheme {
-            MainScaffold(title = "消息列表(支持下拉刷新)", onNavigateBack = { finish() }) {
-                if (messages.isEmpty()) {
-                    //如果数据为空，则显示加载中
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Column(
-                            verticalArrangement = Arrangement.Center, // 使内容垂直居中
-                            horizontalAlignment = Alignment.CenterHorizontally, // 使内容水平居中
-                        ) {
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(64.dp),
-                                color = MaterialTheme.colorScheme.secondary,
-                                trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                            )
+            MainScaffold(
+                title = "列表(支持下拉刷新和上拉加载)",
+                onNavigateBack = { finish() }) {
+                val messages = viewModel.messages.collectAsLazyPagingItems()
+                when (messages.loadState.refresh) {
 
-                            Spacer(modifier = Modifier.height(8.dp))
-
-                            Text(
-                                text = "正在加载消息，请稍候...",
-                                style = MaterialTheme.typography.bodyLarge,
-                            )
-                        }
+                    is LoadState.Error -> {
+                        val message = (messages.loadState.refresh as LoadState.Error).error.message
+                        Text(text = "Load Error: $message")
                     }
 
-                } else {
-                    //如果数据不为空，则显示消息
-                    Conversation(messages)
+                    is LoadState.NotLoading, is LoadState.Loading -> {
+                        Conversation()
+                    }
                 }
+                printSimpleLog("loadState: ${messages.loadState.refresh}")
+
             }
         }
     }
-
 
     @Composable
     fun MessageCard(msg: Message) {
@@ -153,23 +143,43 @@ class ComposeListViewDemoActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun Conversation(messages: List<Message>) {
-        val state = rememberPullToRefreshState()
-        val onRefresh: () -> Unit = {
-            viewModel.requestMockMessages()
+    fun Conversation(viewModel: ListViewModel = viewModel()) {
+        val messages = viewModel.messages.collectAsLazyPagingItems()
+        var isRefreshing by remember { mutableStateOf(false) }
+
+        LaunchedEffect(messages.loadState.refresh) {// 监听刷新状态
+            isRefreshing = messages.loadState.refresh is LoadState.Loading // 刷新状态
         }
-        val isRefreshing by viewModel.isRefreshing // 是否正在刷新
 
         PullToRefreshBox(
-            modifier = Modifier.padding(5.dp),
-            state = state,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentWidth(Alignment.CenterHorizontally)
+                .padding(5.dp),
             isRefreshing = isRefreshing,
-            onRefresh = onRefresh,
+            onRefresh = {
+                printSimpleLog("onRefresh")
+                messages.refresh()
+            },
         ) {
-            //增加item垂直间距
-            LazyColumn(verticalArrangement = Arrangement.spacedBy(5.dp)) {
-                items(messages) {
-                    MessageCard(it)
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                items(messages.itemCount) { index ->
+                    val item = messages[index]
+                    if (item != null) {
+                        MessageCard(item)
+                    }
+                }
+
+                if (messages.loadState.append == LoadState.Loading) {
+                    item {
+                        CircularProgressIndicator(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .wrapContentWidth(Alignment.CenterHorizontally)
+                        )
+                    }
                 }
             }
         }
@@ -184,7 +194,6 @@ class ComposeListViewDemoActivity : ComponentActivity() {
     )
     @Composable
     fun MainScreenPreview() {
-
         val messages = remember { mutableStateListOf<Message>() }
         val list = List(20) { index ->
             Message(
@@ -194,7 +203,7 @@ class ComposeListViewDemoActivity : ComponentActivity() {
         }
 
         messages.addAll(list)
-        MainScreen(messages)
+        MainScreen()
     }
 
     @Preview(name = "Light Mode")

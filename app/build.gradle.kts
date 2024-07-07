@@ -97,6 +97,7 @@ dependencies {
     implementation(libs.rxandroid)
 
 
+    //compose
     implementation(libs.lifecycleRuntimeKtx)
     implementation(libs.activityCompose)
     implementation(platform(libs.composeBom))
@@ -108,6 +109,12 @@ dependencies {
     androidTestImplementation(libs.uiTestJunit4)
     debugImplementation(libs.uiTooling)
     debugImplementation(libs.uiTestManifest)
+    implementation(libs.lifecycleViewmodelCompose)
+
+    //paging
+    implementation(libs.pagingRuntime)
+    implementation(libs.pagingCompose)
+
 }
 
 tasks.register<Delete>("cleanTest") {
