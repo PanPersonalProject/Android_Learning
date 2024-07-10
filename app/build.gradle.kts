@@ -1,7 +1,6 @@
 plugins {
     id(libs.plugins.androidApplication.get().pluginId)
     id(libs.plugins.kotlinAndroid.get().pluginId)
-    id("kotlin-kapt")
     id("kotlin-parcelize")
     alias(libs.plugins.compose.compiler)
 }
@@ -23,13 +22,6 @@ android {
         }
         vectorDrawables {
             useSupportLibrary = true
-        }
-
-        kapt {
-            arguments {
-                arg("AROUTER_MODULE_NAME", project.name)
-            }
-            correctErrorTypes = true
         }
     }
 

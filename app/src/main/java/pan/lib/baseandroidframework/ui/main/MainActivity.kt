@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Button(onClick = { startActivity<CustomerViewDemoListActivity>() }) {
-                Text(text = "自定义View列表")
+                Text(text = "自定义View集合")
             }
             Button(onClick = { startActivity<RecyclerviewDemoActivity>() }) {
                 Text(text = "RecyclerViewDiffUtil")
