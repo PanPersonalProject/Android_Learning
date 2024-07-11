@@ -6,31 +6,31 @@
 <table>
     <tr>
         <td align="center">
-            <img src="pic/main.png" width="200"/>
+            <img src="pic/main.png" width="300"/>
             <br/>
             <b>主界面展示</b>
         </td>
         <td align="center">
-            <img src="pic/view_list.png" width="200"/>
+            <img src="pic/view_list.png" width="300"/>
             <br/>
-            <b>视图列表</b>
+            <b>自定义View列表</b>
         </td>
         <td align="center">
-            <img src="pic/views.png" width="200"/>
+            <img src="pic/views.png" width="300"/>
             <br/>
-            <b>多种视图组件实现</b>
+            <b>View展示</b>
         </td>
     </tr>
     <tr>
         <td align="center">
-            <img src="pic/flow_layout.png" width="200"/>
+            <img src="pic/flow_layout.png" width="300"/>
             <br/>
-            <b>流式布局</b>
+            <b>flow layout</b>
         </td>
         <td align="center">
-            <img src="pic/compose_list.png" width="200"/>
+            <img src="pic/compose_list.png" width="300"/>
             <br/>
-            <b>Jetpack Compose 列表</b>
+            <b>compose list with paging</b>
         </td>
     </tr>
 </table>
