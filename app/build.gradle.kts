@@ -83,6 +83,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    testImplementation(libs.junit)
     implementation(libs.baseAndroidFramework)
     debugImplementation(libs.leakcanaryAndroid)
     implementation(libs.rxjava)
