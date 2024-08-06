@@ -132,4 +132,10 @@ public class Maze {
         grid[goalLocation.row][goalLocation.column] = Cell.GOAL;
     }
 
+    // 曼哈顿距离比勾股定理更适合城市距离判断，因为城市无法点对点直线方式通行
+    public double manhattanDistance(CellLocation ml) {
+        int xDist = Math.abs(ml.column - goalLocation.column);
+        int yDist = Math.abs(ml.row - goalLocation.row);
+        return (xDist + yDist);
+    }
 }

@@ -3,7 +3,43 @@ package algorithm.search;
 import org.junit.Test;
 
 import java.util.List;
+/*
+dfs:
+SX  X  X
+**********
+    X    *
+    XX X**
+  X******
+****
+*   X X
+***X******
+  ***XX  *
+X   X   XG
 
+bfs:
+SX  X  X
+*
+*   X
+*   XX X
+* X
+******
+    X*X
+   X ***
+     XX***
+X   X   XG
+
+A*:
+SX  X  X
+*
+****X
+   *XX X
+  X***
+     ****
+    X X *
+   X    *
+     XX **
+X   X   XG
+*/
 public class MazeTest {
     @Test
     public void test() {
@@ -24,6 +60,14 @@ public class MazeTest {
         } else {
             System.out.println("bfs:");
             printPath(solution2, m);
+        }
+
+        GenericSearch.Node<Maze.CellLocation> solution3 = GenericSearch.aStar(m.startLocation, m::goalReached, m::nextCanMove, m::manhattanDistance);
+        if (solution3 == null) {
+            System.out.println("No solution found using A*!");
+        } else {
+            System.out.println("A*:");
+            printPath(solution3, m);
         }
     }
 
