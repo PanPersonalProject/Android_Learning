@@ -1,5 +1,3 @@
-
-
 ## 截图
 
 <div align="center">
@@ -28,16 +26,22 @@
             <b>flow layout</b>
         </td>
         <td align="center">
+            <img src="pic/gpu_image_filter.png" width="300"/>
+            <br/>
+            <b>GpuImage图片滤镜</b>
+        </td>
+                <td align="center">
             <img src="pic/compose_list.png" width="300"/>
             <br/>
             <b>compose list with paging</b>
         </td>
+
     </tr>
+
 </table>
 </div>
 
 ---
-
 
 ## APK
 

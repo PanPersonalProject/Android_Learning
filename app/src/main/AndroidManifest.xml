@@ -21,12 +21,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.main.graphics.GpuImageActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.graphics.OpenGLDemoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.main.compose_demo.listview.ComposeListViewDemoActivity"
             android:exported="false" />
-
         <activity
             android:name=".ui.main.CustomerViewDemoListActivity"
             android:exported="false" />

@@ -103,7 +103,7 @@ dependencies {
     debugImplementation(libs.uiTooling)
     debugImplementation(libs.uiTestManifest)
     implementation(libs.lifecycleViewmodelCompose)
-
+    implementation(libs.gpuimage)
     //paging
     implementation(libs.pagingRuntime)
     implementation(libs.pagingCompose)

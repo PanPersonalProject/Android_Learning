@@ -23,6 +23,7 @@ import pan.lib.baseandroidframework.java_demo.dex_class_loader.DexClassLoaderUti
 import pan.lib.baseandroidframework.java_demo.dynamic_proxy.dynamicProxyExample
 import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
 import pan.lib.baseandroidframework.ui.main.compose_demo.listview.ComposeListViewDemoActivity
+import pan.lib.baseandroidframework.ui.main.graphics.GpuImageActivity
 import pan.lib.baseandroidframework.ui.main.graphics.OpenGLDemoActivity
 import pan.lib.baseandroidframework.ui.theme.AndroidLearningTheme
 
@@ -67,7 +68,7 @@ class MainActivity : ComponentActivity() {
                 Button(onClick = { startActivity<OpenGLDemoActivity>() }) {
                     Text(text = "OpenGLDemo")
                 }
-                Button(onClick = { /* Handle GPUImageDemo click */ }) {
+                Button(onClick = { startActivity<GpuImageActivity>() }) {
                     Text(text = "GPUImageDemo")
                 }
                 Button(onClick = {
