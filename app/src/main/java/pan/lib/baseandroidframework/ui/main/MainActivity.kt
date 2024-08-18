@@ -10,6 +10,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -19,6 +23,7 @@ import pan.lib.baseandroidframework.java_demo.dex_class_loader.DexClassLoaderUti
 import pan.lib.baseandroidframework.java_demo.dynamic_proxy.dynamicProxyExample
 import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
 import pan.lib.baseandroidframework.ui.main.compose_demo.listview.ComposeListViewDemoActivity
+import pan.lib.baseandroidframework.ui.main.graphics.OpenGLDemoActivity
 import pan.lib.baseandroidframework.ui.theme.AndroidLearningTheme
 
 class MainActivity : ComponentActivity() {
@@ -53,35 +58,51 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun MenuList() {
         val context = LocalContext.current
+        var showGraphicsDemos by remember { mutableStateOf(false) }//显示图形学demo按钮列表
 
         Column(
             modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Button(onClick = { startActivity<CustomerViewDemoListActivity>() }) {
-                Text(text = "自定义View集合")
-            }
-            Button(onClick = { startActivity<RecyclerviewDemoActivity>() }) {
-                Text(text = "RecyclerViewDiffUtil")
-            }
+            if (showGraphicsDemos) {
+                Button(onClick = { startActivity<OpenGLDemoActivity>() }) {
+                    Text(text = "OpenGLDemo")
+                }
+                Button(onClick = { /* Handle GPUImageDemo click */ }) {
+                    Text(text = "GPUImageDemo")
+                }
+                Button(onClick = {
+                    showGraphicsDemos = false
+                }) {
+                    Text(text = "返回")
+                }
+            } else {
+                Button(onClick = { startActivity<CustomerViewDemoListActivity>() }) {
+                    Text(text = "自定义View集合")
+                }
+                Button(onClick = { startActivity<RecyclerviewDemoActivity>() }) {
+                    Text(text = "RecyclerViewDiffUtil")
+                }
 
-            Button(onClick = { startActivity<ComposeListViewDemoActivity>() }) {
-                Text(text = "ComposeListDemo")
-            }
+                Button(onClick = { startActivity<ComposeListViewDemoActivity>() }) {
+                    Text(text = "ComposeListDemo")
+                }
 
-            Button(onClick = {
-                DexClassLoaderUtil.loadApk(context)
-            }) {
-                Text(text = "DexClassLoader")
-            }
-            Button(onClick = { startActivity<LeakActivity>() }) {
-                Text(text = "内存泄漏测试")
-            }
-            Button(onClick = { dynamicProxyExample() }) {
-                Text(text = "动态代理测试")
-            }
+                Button(onClick = { showGraphicsDemos = true }) {
+                    Text(text = "图形学Demo")
+                }
 
+                Button(onClick = {
+                    DexClassLoaderUtil.loadApk(context)
+                }) {
+                    Text(text = "DexClassLoader")
+                }
+                Button(onClick = { startActivity<LeakActivity>() }) {
+                    Text(text = "内存泄漏测试")
+                }
+                Button(onClick = { dynamicProxyExample() }) {
+                    Text(text = "动态代理测试")
+                }
+            }
         }
     }
-
-
 }
