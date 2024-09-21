@@ -8,7 +8,6 @@ import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.annotation.ColorInt
-import org.jetbrains.anko.collections.forEachWithIndex
 import pan.lib.common_lib.utils.ext.dp2px
 import kotlin.math.cos
 import kotlin.math.sin
@@ -41,13 +40,13 @@ class PieChartView(context: Context?, attrs: AttributeSet?) : View(context, attr
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         var currentAngle = 0f
-        angleList.forEachWithIndex { index, pie ->
+        angleList.forEachIndexed { index, pie ->
             paint.color = pie.color
             if (index == 2) {
                 canvas.save()
                 val middleAngle = ((currentAngle + currentAngle + pie.angle) / 2).toDouble()
                 val tranX = cos(Math.toRadians(middleAngle)) * 10.dp2px
-                val tranY = sin(Math.toRadians(middleAngle)) * 10.dp2px
+                val tranY = sin(Math.toRadians(middleAngle)) *  10.dp2px
                 canvas.translate(tranX.toFloat(), tranY.toFloat())  //平移画布达到坐标偏移效果
                 canvas.drawArc(rectF, currentAngle, pie.angle, true, paint)
                 canvas.restore()

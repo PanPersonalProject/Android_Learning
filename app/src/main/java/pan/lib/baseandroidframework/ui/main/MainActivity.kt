@@ -1,5 +1,6 @@
 package pan.lib.baseandroidframework.ui.main
 
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -18,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import org.jetbrains.anko.startActivity
 import pan.lib.baseandroidframework.java_demo.dex_class_loader.DexClassLoaderUtil
 import pan.lib.baseandroidframework.java_demo.dynamic_proxy.dynamicProxyExample
 import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
@@ -35,7 +35,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             MainScreen()
         }
-
     }
 
     @Preview(
@@ -55,7 +54,6 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-
     @Composable
     fun MenuList() {
         val context = LocalContext.current
@@ -65,10 +63,14 @@ class MainActivity : ComponentActivity() {
             modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (showGraphicsDemos) {
-                Button(onClick = { startActivity<OpenGLDemoActivity>() }) {
+                Button(onClick = {
+                    startActivity(Intent(context, OpenGLDemoActivity::class.java))
+                }) {
                     Text(text = "OpenGLDemo")
                 }
-                Button(onClick = { startActivity<GpuImageActivity>() }) {
+                Button(onClick = {
+                    startActivity(Intent(context, GpuImageActivity::class.java))
+                }) {
                     Text(text = "GPUImageDemo")
                 }
                 Button(onClick = {
@@ -77,27 +79,32 @@ class MainActivity : ComponentActivity() {
                     Text(text = "返回")
                 }
             } else {
-                Button(onClick = { startActivity<CustomerViewDemoListActivity>() }) {
+                Button(onClick = {
+                    startActivity(Intent(context, CustomerViewDemoListActivity::class.java))
+                }) {
                     Text(text = "自定义View集合")
                 }
-                Button(onClick = { startActivity<RecyclerviewDemoActivity>() }) {
+                Button(onClick = {
+                    startActivity(Intent(context, RecyclerviewDemoActivity::class.java))
+                }) {
                     Text(text = "RecyclerViewDiffUtil")
                 }
-
-                Button(onClick = { startActivity<ComposeListViewDemoActivity>() }) {
+                Button(onClick = {
+                    startActivity(Intent(context, ComposeListViewDemoActivity::class.java))
+                }) {
                     Text(text = "ComposeListDemo")
                 }
-
                 Button(onClick = { showGraphicsDemos = true }) {
                     Text(text = "图形学Demo")
                 }
-
                 Button(onClick = {
                     DexClassLoaderUtil.loadApk(context)
                 }) {
                     Text(text = "DexClassLoader")
                 }
-                Button(onClick = { startActivity<LeakActivity>() }) {
+                Button(onClick = {
+                    startActivity(Intent(context, LeakActivity::class.java))
+                }) {
                     Text(text = "内存泄漏测试")
                 }
                 Button(onClick = { dynamicProxyExample() }) {
