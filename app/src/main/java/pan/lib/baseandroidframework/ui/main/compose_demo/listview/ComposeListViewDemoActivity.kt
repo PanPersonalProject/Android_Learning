@@ -2,12 +2,14 @@ package pan.lib.baseandroidframework.ui.main.compose_demo.listview
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +24,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -165,6 +168,30 @@ class ComposeListViewDemoActivity : ComponentActivity() {
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
+                //LazyColumn远比recyclerview添加header和footer更加简单
+                item {
+                    Text(
+                        text = "Message List Header",
+                        style = MaterialTheme.typography.titleSmall,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)//外边距，padding和background是有顺序关系的，先调用padding再调用background，相当于margin
+                            .clickable {  //点击事件,也要注意顺序，否则点击区域不同
+                                Toast.makeText(
+                                    this@ComposeListViewDemoActivity,
+                                    "Header clicked",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            .background(
+                                MaterialTheme.colorScheme.primary,
+                                RoundedCornerShape(8.dp) //设置shape
+                            )
+                            .padding(16.dp),//内边距
+                        color = MaterialTheme.colorScheme.onPrimary
+                    )
+                }
+
                 items(messages.itemCount) { index ->
                     val item = messages[index]
                     if (item != null) {
