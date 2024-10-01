@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import pan.lib.baseandroidframework.java_demo.dex_class_loader.DexClassLoaderUtil
 import pan.lib.baseandroidframework.java_demo.dynamic_proxy.dynamicProxyExample
 import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
+import pan.lib.baseandroidframework.ui.main.compose_demo.ComposeRecompositionDemo
 import pan.lib.baseandroidframework.ui.main.compose_demo.listview.ComposeListViewDemoActivity
 import pan.lib.baseandroidframework.ui.main.graphics.GpuImageActivity
 import pan.lib.baseandroidframework.ui.main.graphics.OpenGLDemoActivity
@@ -57,7 +58,8 @@ class MainActivity : ComponentActivity() {
 enum class MenuState {
     HOME,
     GRAPHICS,
-    COMPOSE
+    COMPOSE,
+    ComposeRecompositionDemo,
 }
 
 
@@ -72,6 +74,7 @@ fun MenuList() {
             MenuState.HOME -> HomeMenu(menuState)
             MenuState.GRAPHICS -> GraphicsMenu(menuState)
             MenuState.COMPOSE -> ComposeMenu(menuState)
+            MenuState.ComposeRecompositionDemo -> ComposeRecompositionDemo()
         }
     }
 }
@@ -150,6 +153,12 @@ fun ComposeMenu(menuState: MutableState<MenuState>) {
             context.startActivity(Intent(context, ComposeListViewDemoActivity::class.java))
         }) {
             Text(text = "ComposeListDemo")
+        }
+
+        Button(onClick = {
+            menuState.value = MenuState.ComposeRecompositionDemo
+        }) {
+            Text(text = "ComposeRecompositionDemo")
         }
         Button(onClick = { menuState.value = MenuState.HOME }) {
             Text(text = "返回")
