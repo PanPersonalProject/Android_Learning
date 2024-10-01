@@ -11,10 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -53,64 +52,107 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+}
 
-    @Composable
-    fun MenuList() {
-        val context = LocalContext.current
-        var showGraphicsDemos by remember { mutableStateOf(false) }//显示图形学demo按钮列表
+enum class MenuState {
+    HOME,
+    GRAPHICS,
+    COMPOSE
+}
 
-        Column(
-            modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (showGraphicsDemos) {
-                Button(onClick = {
-                    startActivity(Intent(context, OpenGLDemoActivity::class.java))
-                }) {
-                    Text(text = "OpenGLDemo")
-                }
-                Button(onClick = {
-                    startActivity(Intent(context, GpuImageActivity::class.java))
-                }) {
-                    Text(text = "GPUImageDemo")
-                }
-                Button(onClick = {
-                    showGraphicsDemos = false
-                }) {
-                    Text(text = "返回")
-                }
-            } else {
-                Button(onClick = {
-                    startActivity(Intent(context, CustomerViewDemoListActivity::class.java))
-                }) {
-                    Text(text = "自定义View集合")
-                }
-                Button(onClick = {
-                    startActivity(Intent(context, RecyclerviewDemoActivity::class.java))
-                }) {
-                    Text(text = "RecyclerViewDiffUtil")
-                }
-                Button(onClick = {
-                    startActivity(Intent(context, ComposeListViewDemoActivity::class.java))
-                }) {
-                    Text(text = "ComposeListDemo")
-                }
-                Button(onClick = { showGraphicsDemos = true }) {
-                    Text(text = "图形学Demo")
-                }
-                Button(onClick = {
-                    DexClassLoaderUtil.loadApk(context)
-                }) {
-                    Text(text = "DexClassLoader")
-                }
-                Button(onClick = {
-                    startActivity(Intent(context, LeakActivity::class.java))
-                }) {
-                    Text(text = "内存泄漏测试")
-                }
-                Button(onClick = { dynamicProxyExample() }) {
-                    Text(text = "动态代理测试")
-                }
-            }
+
+@Composable
+fun MenuList() {
+    val menuState = remember { mutableStateOf(MenuState.HOME) }
+
+    Column(
+        modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        when (menuState.value) {
+            MenuState.HOME -> HomeMenu(menuState)
+            MenuState.GRAPHICS -> GraphicsMenu(menuState)
+            MenuState.COMPOSE -> ComposeMenu(menuState)
+        }
+    }
+}
+
+@Composable
+fun HomeMenu(menuState: MutableState<MenuState>) {
+    val context = LocalContext.current
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            context.startActivity(Intent(context, CustomerViewDemoListActivity::class.java))
+        }) {
+            Text(text = "自定义View集合")
+        }
+        Button(onClick = {
+            context.startActivity(Intent(context, RecyclerviewDemoActivity::class.java))
+        }) {
+            Text(text = "RecyclerViewDiffUtil")
+        }
+
+        Button(onClick = { menuState.value = MenuState.COMPOSE }) {
+            Text(text = "ComposeDemo")
+        }
+        Button(onClick = { menuState.value = MenuState.GRAPHICS }) {
+            Text(text = "图形学Demo")
+        }
+        Button(onClick = {
+            DexClassLoaderUtil.loadApk(context)
+        }) {
+            Text(text = "DexClassLoader")
+        }
+        Button(onClick = {
+            context.startActivity(Intent(context, LeakActivity::class.java))
+        }) {
+            Text(text = "内存泄漏测试")
+        }
+        Button(onClick = { dynamicProxyExample() }) {
+            Text(text = "动态代理测试")
+        }
+    }
+}
+
+@Composable
+fun GraphicsMenu(menuState: MutableState<MenuState>) {
+    val context = LocalContext.current
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            context.startActivity(Intent(context, OpenGLDemoActivity::class.java))
+        }) {
+            Text(text = "OpenGLDemo")
+        }
+        Button(onClick = {
+            context.startActivity(Intent(context, GpuImageActivity::class.java))
+        }) {
+            Text(text = "GPUImageDemo")
+        }
+        Button(onClick = { menuState.value = MenuState.HOME }) {
+            Text(text = "返回")
+        }
+    }
+}
+
+@Composable
+fun ComposeMenu(menuState: MutableState<MenuState>) {
+    val context = LocalContext.current
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = {
+            context.startActivity(Intent(context, ComposeListViewDemoActivity::class.java))
+        }) {
+            Text(text = "ComposeListDemo")
+        }
+        Button(onClick = { menuState.value = MenuState.HOME }) {
+            Text(text = "返回")
         }
     }
 }
