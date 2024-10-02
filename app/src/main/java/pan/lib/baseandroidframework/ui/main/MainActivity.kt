@@ -6,21 +6,35 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.core.EaseIn
+import androidx.compose.animation.core.EaseOut
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import pan.lib.baseandroidframework.java_demo.dex_class_loader.DexClassLoaderUtil
 import pan.lib.baseandroidframework.java_demo.dynamic_proxy.dynamicProxyExample
 import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
+import pan.lib.baseandroidframework.ui.main.MainActivity.NavRoutes
 import pan.lib.baseandroidframework.ui.main.compose_demo.ComposeRecompositionDemo
 import pan.lib.baseandroidframework.ui.main.compose_demo.listview.ComposeListViewDemoActivity
 import pan.lib.baseandroidframework.ui.main.graphics.GpuImageActivity
@@ -37,6 +51,14 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+
+    object NavRoutes {
+        const val HOME = "home"
+        const val GRAPHICS = "graphics"
+        const val COMPOSE = "compose"
+        const val COMPOSE_RECOMPOSITION_DEMO = "compose_recomposition_demo"
+    }
+
     @Preview(
         uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_NORMAL,
         backgroundColor = 0xFFFFEAEE,
@@ -44,43 +66,57 @@ class MainActivity : ComponentActivity() {
     )
     @Composable
     private fun MainScreen() {
+        val navController = rememberNavController()
+        var needShowArrowBack by remember { mutableStateOf(false) }
+
+        LaunchedEffect(navController) {
+            navController.addOnDestinationChangedListener { _, _, _ ->
+                needShowArrowBack = navController.previousBackStackEntry != null
+            }
+        }
+
         AndroidLearningTheme {
             MainScaffold(
                 title = "AndroidLearning",
-                needShowArrowBack = false,
+                needShowArrowBack = needShowArrowBack,
+                onNavigateBack = { navController.popBackStack() }
             ) {
-                MenuList()
+                NavHost(
+                    navController = navController, startDestination = NavRoutes.HOME,
+                    enterTransition = {
+                        fadeIn(
+                            animationSpec = tween(
+                                300, easing = LinearEasing
+                            )
+                        ) + slideIntoContainer(
+                            animationSpec = tween(200, easing = EaseIn),
+                            towards = AnimatedContentTransitionScope.SlideDirection.Start
+                        )
+                    },
+                    exitTransition = {
+                        fadeOut(
+                            animationSpec = tween(
+                                300, easing = LinearEasing
+                            )
+                        ) + slideOutOfContainer(
+                            animationSpec = tween(200, easing = EaseOut),
+                            towards = AnimatedContentTransitionScope.SlideDirection.End
+                        )
+                    }
+                ) {
+                    composable(NavRoutes.HOME) { HomeMenu(navController) }
+                    composable(NavRoutes.GRAPHICS) { GraphicsMenu() }
+                    composable(NavRoutes.COMPOSE) { ComposeMenu(navController) }
+                    composable(NavRoutes.COMPOSE_RECOMPOSITION_DEMO) { ComposeRecompositionDemo() }
+                }
             }
         }
     }
-}
 
-enum class MenuState {
-    HOME,
-    GRAPHICS,
-    COMPOSE,
-    ComposeRecompositionDemo,
-}
-
-
-@Composable
-fun MenuList() {
-    val menuState = remember { mutableStateOf(MenuState.HOME) }
-
-    Column(
-        modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        when (menuState.value) {
-            MenuState.HOME -> HomeMenu(menuState)
-            MenuState.GRAPHICS -> GraphicsMenu(menuState)
-            MenuState.COMPOSE -> ComposeMenu(menuState)
-            MenuState.ComposeRecompositionDemo -> ComposeRecompositionDemo()
-        }
-    }
 }
 
 @Composable
-fun HomeMenu(menuState: MutableState<MenuState>) {
+fun HomeMenu(navController: NavHostController) {
     val context = LocalContext.current
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -97,10 +133,10 @@ fun HomeMenu(menuState: MutableState<MenuState>) {
             Text(text = "RecyclerViewDiffUtil")
         }
 
-        Button(onClick = { menuState.value = MenuState.COMPOSE }) {
+        Button(onClick = { navController.navigate(NavRoutes.COMPOSE) }) {
             Text(text = "ComposeDemo")
         }
-        Button(onClick = { menuState.value = MenuState.GRAPHICS }) {
+        Button(onClick = { navController.navigate(NavRoutes.GRAPHICS) }) {
             Text(text = "图形学Demo")
         }
         Button(onClick = {
@@ -120,7 +156,7 @@ fun HomeMenu(menuState: MutableState<MenuState>) {
 }
 
 @Composable
-fun GraphicsMenu(menuState: MutableState<MenuState>) {
+fun GraphicsMenu() {
     val context = LocalContext.current
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -136,14 +172,11 @@ fun GraphicsMenu(menuState: MutableState<MenuState>) {
         }) {
             Text(text = "GPUImageDemo")
         }
-        Button(onClick = { menuState.value = MenuState.HOME }) {
-            Text(text = "返回")
-        }
     }
 }
 
 @Composable
-fun ComposeMenu(menuState: MutableState<MenuState>) {
+fun ComposeMenu(navController: NavHostController) {
     val context = LocalContext.current
     Column(
         modifier = Modifier.fillMaxWidth(),
@@ -156,12 +189,9 @@ fun ComposeMenu(menuState: MutableState<MenuState>) {
         }
 
         Button(onClick = {
-            menuState.value = MenuState.ComposeRecompositionDemo
+            navController.navigate(NavRoutes.COMPOSE_RECOMPOSITION_DEMO)
         }) {
             Text(text = "ComposeRecompositionDemo")
-        }
-        Button(onClick = { menuState.value = MenuState.HOME }) {
-            Text(text = "返回")
         }
     }
 }

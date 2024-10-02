@@ -107,7 +107,7 @@ dependencies {
     //paging
     implementation(libs.pagingRuntime)
     implementation(libs.pagingCompose)
-
+    implementation(libs.navigationCompose)
 }
 
 tasks.register<Delete>("cleanTest") {

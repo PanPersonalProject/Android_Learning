@@ -5,6 +5,7 @@ kotlin = "2.0.0"
 ksp = "2.0.0-1.0.22"
 leakcanaryAndroidVersion = "2.8.1"
 minSdk = "24"
+navigationCompose = "2.8.1"
 pagingVersion = "3.3.2"
 rxandroid = "3.0.0"
 rxjava = "3.1.3"
@@ -40,6 +41,7 @@ uiToolingPreview = { group = "androidx.compose.ui", name = "ui-tooling-preview" 
 uiTestManifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 uiTestJunit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+navigationCompose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
