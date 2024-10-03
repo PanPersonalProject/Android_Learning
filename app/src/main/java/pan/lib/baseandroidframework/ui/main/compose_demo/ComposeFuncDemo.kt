@@ -5,6 +5,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
@@ -12,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.StateObject
 import kotlin.collections.component1
 import kotlin.collections.component2
 
@@ -84,4 +86,43 @@ fun MutableStateCollectionsDemo() {
             Text("Add Key-Value Pair")
         }
     }
+}
+
+
+@Composable
+fun DerivedStateOfDemo() {
+    var nameList = remember {
+        mutableStateListOf("张三")
+    }
+    UpdateNameList(nameList = nameList) {
+        nameList.add("李四")
+    }
+}
+
+
+@Composable
+fun UpdateNameList(nameList: List<String>, onClick: () -> Unit) {
+    /*   nameList是StateObject
+         remember观察nameList的引用的变化
+         derivedStateOf观察StateObject nameList内部元素的变化*/
+    val personList by remember(nameList) {
+        derivedStateOf {
+            nameList.map {
+                "my name is $it"
+            }
+        }
+    }
+    Column {
+        Button(onClick = {
+            onClick.invoke()
+        }) {
+            Text(text = "add new name")
+        }
+        Text(text = "nameList is StateObject: ${nameList is StateObject}")
+
+        for (person in personList) {
+            Text(text = person)
+        }
+    }
+
 }

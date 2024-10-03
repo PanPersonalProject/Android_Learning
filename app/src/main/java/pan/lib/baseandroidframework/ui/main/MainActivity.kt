@@ -36,6 +36,7 @@ import pan.lib.baseandroidframework.java_demo.dynamic_proxy.dynamicProxyExample
 import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
 import pan.lib.baseandroidframework.ui.main.MainActivity.NavRoutes
 import pan.lib.baseandroidframework.ui.main.compose_demo.ComposeRecompositionDemo
+import pan.lib.baseandroidframework.ui.main.compose_demo.DerivedStateOfDemo
 import pan.lib.baseandroidframework.ui.main.compose_demo.listview.ComposeListViewDemoActivity
 import pan.lib.baseandroidframework.ui.main.graphics.GpuImageActivity
 import pan.lib.baseandroidframework.ui.main.graphics.OpenGLDemoActivity
@@ -57,6 +58,7 @@ class MainActivity : ComponentActivity() {
         const val GRAPHICS = "graphics"
         const val COMPOSE = "compose"
         const val COMPOSE_RECOMPOSITION_DEMO = "compose_recomposition_demo"
+        const val DERIVED_STATE_OF_DEMO = "derived_state_of_demo"
     }
 
     @Preview(
@@ -108,6 +110,7 @@ class MainActivity : ComponentActivity() {
                     composable(NavRoutes.GRAPHICS) { GraphicsMenu() }
                     composable(NavRoutes.COMPOSE) { ComposeMenu(navController) }
                     composable(NavRoutes.COMPOSE_RECOMPOSITION_DEMO) { ComposeRecompositionDemo() }
+                    composable(NavRoutes.DERIVED_STATE_OF_DEMO) { DerivedStateOfDemo() }
                 }
             }
         }
@@ -192,6 +195,12 @@ fun ComposeMenu(navController: NavHostController) {
             navController.navigate(NavRoutes.COMPOSE_RECOMPOSITION_DEMO)
         }) {
             Text(text = "ComposeRecompositionDemo")
+        }
+
+        Button(onClick = {
+            navController.navigate(NavRoutes.DERIVED_STATE_OF_DEMO)
+        }) {
+            Text(text = "DerivedStateOfDemo")
         }
     }
 }
