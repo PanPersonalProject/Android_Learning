@@ -5,6 +5,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
@@ -14,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.StateObject
+import androidx.compose.runtime.staticCompositionLocalOf
 import kotlin.collections.component1
 import kotlin.collections.component2
 
@@ -125,4 +128,37 @@ fun UpdateNameList(nameList: List<String>, onClick: () -> Unit) {
         }
     }
 
+}
+
+/*
+CompositionLocal 具有穿透函数功能的局部变量
+把它构建成一个：不怕影响到更大范围的对象，也就是提供绝对正确的值 ——>共识
+适用于：context 环境 theme
+*/
+val LocaleVersion = compositionLocalOf<String> {
+    error("No version provided")
+}
+
+/*
+与 compositionLocalOf 不同，Compose 不会跟踪 staticCompositionLocalOf 的读取。节省了跟踪的性能开销。
+更改该值会导致提供 CompositionLocal 的整个 content lambda 被重组，而不仅仅是在组合中读取 current 值的位置。
+如果为 CompositionLocal 提供的值发生更改的可能性微乎其微或永远不会更改，使用 staticCompositionLocalOf 可提高性能。
+*/
+val LocaleVersion2 = staticCompositionLocalOf<String> {
+    error("No version provided")
+}
+
+@Composable
+fun CompositionLocalDemo() {
+    CompositionLocalProvider(LocaleVersion provides "1.0") {
+        CompositionLocalChildDemo() // LocaleVersion: 1.0
+        CompositionLocalProvider(LocaleVersion provides "1.1") {
+            CompositionLocalChildDemo() // LocaleVersion: 1.1
+        }
+    }
+}
+
+@Composable
+fun CompositionLocalChildDemo() {
+    Text(text = "LocaleVersion: ${LocaleVersion.current}")
 }

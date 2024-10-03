@@ -36,6 +36,7 @@ import pan.lib.baseandroidframework.java_demo.dynamic_proxy.dynamicProxyExample
 import pan.lib.baseandroidframework.ui.compose_views.MainScaffold
 import pan.lib.baseandroidframework.ui.main.MainActivity.NavRoutes
 import pan.lib.baseandroidframework.ui.main.compose_demo.ComposeRecompositionDemo
+import pan.lib.baseandroidframework.ui.main.compose_demo.CompositionLocalDemo
 import pan.lib.baseandroidframework.ui.main.compose_demo.DerivedStateOfDemo
 import pan.lib.baseandroidframework.ui.main.compose_demo.listview.ComposeListViewDemoActivity
 import pan.lib.baseandroidframework.ui.main.graphics.GpuImageActivity
@@ -48,7 +49,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MainScreen()
+            CompositionLocalDemo()
         }
     }
 
