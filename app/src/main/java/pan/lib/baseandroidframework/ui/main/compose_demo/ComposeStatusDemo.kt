@@ -151,10 +151,13 @@ val LocaleVersion2 = staticCompositionLocalOf<String> {
 @Composable
 fun CompositionLocalDemo() {
     CompositionLocalProvider(LocaleVersion provides "1.0") {
-        CompositionLocalChildDemo() // LocaleVersion: 1.0
-        CompositionLocalProvider(LocaleVersion provides "1.1") {
-            CompositionLocalChildDemo() // LocaleVersion: 1.1
+        Column {
+            CompositionLocalChildDemo() // LocaleVersion: 1.0
+            CompositionLocalProvider(LocaleVersion provides "1.1") {
+                CompositionLocalChildDemo() // LocaleVersion: 1.1
+            }
         }
+
     }
 }
 
