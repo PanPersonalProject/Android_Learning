@@ -2,9 +2,11 @@ package pan.lib.baseandroidframework.ui.main.compose_demo
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -32,6 +34,8 @@ fun AnimateDemos() {
         AnimateDpAsStateDemo()
         Text(text = "Animatable:带动画初始值")
         AnimatableDemo()
+        Text(text = "Reverse动画")
+        ReverseDemo()
     }
 }
 
@@ -82,6 +86,41 @@ fun AnimatableDemo() {
                 easing = FastOutLinearInEasing //动画运行速率曲线
             )
 
+        )
+    }
+    Box(
+        Modifier
+            .padding(bottom = 20.dp)
+            .size(animatable.value)
+            .background(Color.Blue)
+            .clickable(onClick = {
+                big = !big
+            })
+    )
+}
+
+
+@Composable
+fun ReverseDemo() {
+    var big by remember { mutableStateOf(false) }
+    val animatable = remember { Animatable(100.dp, Dp.VectorConverter) }
+
+    LaunchedEffect(big) {
+        animatable.animateTo(
+            targetValue = if (big) 200.dp else 100.dp,
+            animationSpec = repeatable(
+                iterations = 3, // 重复次数，动画将重复3次
+                animation = tween(), // 使用补间动画，可以指定动画的持续时间、延迟和速率曲线等
+                repeatMode = RepeatMode.Reverse, // 反向重复模式，每次重复时，动画将反向播放
+//                initialStartOffset = StartOffset(500, StartOffsetType.FastForward) // 动画开始前的延迟时间，500毫秒后快速前进到动画的开始位置
+            )
+
+            //infiniteRepeatable 无限重复
+//            animationSpec = infiniteRepeatable(
+//                animation = tween(), // 使用补间动画，可以指定动画的持续时间、延迟和速率曲线等
+//                repeatMode = RepeatMode.Reverse, // 反向重复模式，每次重复时，动画将反向播放
+//            )
+//
         )
     }
     Box(
