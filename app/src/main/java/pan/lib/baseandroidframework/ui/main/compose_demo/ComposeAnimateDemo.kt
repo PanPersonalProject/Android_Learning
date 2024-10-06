@@ -69,11 +69,16 @@ fun AnimateDpAsStateDemo() {
 
 /*
 Animatable是一个可动画的值，可以用来实现更复杂的动画效果
+
 Easing:
 - FastOutSlowInEasing：先加速后减速，对应属性动画插值器的 FastOutSlowInInterpolator
 - LinearOutSlowInEasing：先匀速后减速，对应属性动画插值器的 LinearOutSlowInInterpolator
 - FastOutLinearInEasing：先加速后匀速，对应属性动画插值器的 FastOutLinearInInterpolator
-- LinearEasing：匀速运行*/
+- LinearEasing：匀速运行
+
+block: 监听动画执行的每一帧
+*/
+
 @Composable
 fun AnimatableDemo() {
     var big by remember { mutableStateOf(false) }
@@ -87,8 +92,11 @@ fun AnimatableDemo() {
             animationSpec = tween(
                 durationMillis = 1000,
                 easing = FastOutLinearInEasing //动画运行速率曲线
-            )
-
+            ),
+            block = {
+                //监听动画执行的每一帧
+                value //当前动画值
+            }
         )
     }
     Box(
