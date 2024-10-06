@@ -6,6 +6,7 @@ import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VectorConverter
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
@@ -36,6 +37,8 @@ fun AnimateDemos() {
         AnimatableDemo()
         Text(text = "Reverse动画")
         ReverseDemo()
+        Text(text = "惯性动画")
+        AnimateDecayDemo()
     }
 }
 
@@ -125,10 +128,58 @@ fun ReverseDemo() {
     }
     Box(
         Modifier
+            .padding(bottom = 20.dp)
             .size(animatable.value)
             .background(Color.Blue)
             .clickable(onClick = {
                 big = !big
+            })
+    )
+}
+
+/*
+animateDecay：惯性衰减
+最终值和初始速度相关，比如滑动列表的初始速度
+和animateTo的区别？
+animateTo是先确定移动距离，animateDecay不确定移动距离，根据速度决定最后位置和结束时间
+*/
+@Composable
+fun AnimateDecayDemo() {
+    var move by remember { mutableStateOf(false) }
+    val animatable = remember { Animatable(0.dp, Dp.VectorConverter) }
+
+//    样条曲线（spline）来计算衰减动画
+//    面向像素，会根据屏幕密度转换为px，是强制修正
+//    val decay=rememberSplineBasedDecay<Int>()
+
+    //指数衰减算法来计算动画
+    //不会根据屏幕密度，把dp转换px. Dp本身就会根据屏幕密度转换，所以不需要再转换
+    val decay = remember {
+        exponentialDecay<Dp>(
+            //衰减摩擦系数
+            frictionMultiplier = 1f,
+            //最低速度，低于此速度时动画将被视为完成。必须大于 `0`
+            absVelocityThreshold = 0.1f
+        )
+    }
+    LaunchedEffect(move) {
+        if (move) {
+            animatable.animateDecay(
+                initialVelocity = 1000.dp,
+                animationSpec = decay
+            )
+        } else {
+            animatable.stop()
+            animatable.snapTo(0.dp)
+        }
+    }
+    Box(
+        Modifier
+            .padding(start = animatable.value)
+            .size(100.dp)
+            .background(Color.Blue)
+            .clickable(onClick = {
+                move = !move
             })
     )
 }
