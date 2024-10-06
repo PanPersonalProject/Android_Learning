@@ -42,6 +42,8 @@ fun AnimateDemos() {
     }
 }
 
+/*animateDpAsState状态切换是从A状态到B状态，不需要动画的初始值
+animateDpAsState是Animatable的渐变场景的api，抛弃了一些功能。*/
 @Composable
 fun AnimateDpAsStateDemo() {
     var big by remember { mutableStateOf(false) }
