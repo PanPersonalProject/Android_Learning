@@ -1,6 +1,9 @@
 package pan.lib.baseandroidframework.ui.main.compose_demo
 
+import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationEndReason
 import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
@@ -13,9 +16,14 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,10 +35,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.delay
+import kotlin.coroutines.cancellation.CancellationException
+
 
 @Composable
 fun AnimateDemos() {
-    Column {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .verticalScroll(rememberScrollState())
+    ) {
         Text(text = "animateDpAsState")
         AnimateDpAsStateDemo()
         Text(text = "Animatable:带动画初始值")
@@ -39,6 +55,10 @@ fun AnimateDemos() {
         ReverseDemo()
         Text(text = "惯性动画")
         AnimateDecayDemo()
+        Text(text = "动画打断")
+        AnimateInterruptDemo()
+        Text(text = "边界动画")
+        AnimateBoundDemo()
     }
 }
 
@@ -192,4 +212,78 @@ fun AnimateDecayDemo() {
                 move = !move
             })
     )
+}
+
+@SuppressLint("UnusedBoxWithConstraintsScope")
+@Composable
+fun AnimateBoundDemo() {
+    var startAnimation by remember { mutableStateOf(false) }
+
+    BoxWithConstraints {
+        val anim = remember { Animatable(0.dp, Dp.VectorConverter) }
+        val animY = remember { Animatable(0.dp, Dp.VectorConverter) }
+        val decay = remember { exponentialDecay<Dp>() }
+
+        if (startAnimation) {
+            LaunchedEffect(Unit) {
+                var result = anim.animateDecay(4000.dp, decay)
+                while (result.endReason == AnimationEndReason.BoundReached) {
+                    //动画到达边界，回弹回去的动画
+                    result = anim.animateDecay(-result.endState.velocity, decay)
+                }
+            }
+            //y轴惯性动画
+            LaunchedEffect(Unit) {
+                animY.animateDecay(2000.dp, decay)
+            }
+            //边界设置
+            anim.updateBounds(0.dp, upperBound = maxWidth - 100.dp)
+            animY.updateBounds(upperBound = maxHeight - 100.dp)
+        }
+
+        Box(
+            Modifier
+                .padding(anim.value, animY.value, 0.dp, 200.dp)
+                .size(100.dp)
+                .background(Color.Green)
+                .clickable { startAnimation = true }
+        )
+    }
+}
+
+
+/*动画停止可分为异常停止和正常停止，其中打断和主动停止动画属于异常停止，
+动画运行完成或达到边界后停止属于正常停止。*/
+@Composable
+fun AnimateInterruptDemo() {
+    val anim = remember { Animatable(0.dp, Dp.VectorConverter) }
+    val decay = remember { exponentialDecay<Dp>() }
+    LaunchedEffect(Unit) {
+        delay(1000)
+        try {
+            anim.animateDecay(2000.dp, decay)
+        } catch (e: CancellationException) {
+            Log.e("AnimateInterruptDemo", "动画被打断了", e)
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        delay(1300)
+        anim.animateDecay((-1000).dp, decay)//打断上一个动画
+    }
+
+    Box(
+        Modifier
+            .padding(anim.value, 0.dp, 0.dp, 0.dp)
+            .size(100.dp)
+            .background(Color.Green)
+    )
+//    LaunchedEffect(Unit) {
+//        delay(1000)
+//        anim.animateDecay(2000.dp, decay)
+//    }
+//    LaunchedEffect(Unit) {
+//        delay(1300)
+//        anim.stop()//停止动画
+//    }
 }
