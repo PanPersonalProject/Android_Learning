@@ -4,12 +4,12 @@ plugins {
 
 repositories {
     google()
-    jcenter()
+    mavenCentral()
     mavenCentral()
 }
 dependencies {
     /* Depend on the android gradle plugin, since we want to access it in our plugin */
-    implementation("com.android.tools.build:gradle:8.6.1")
+    implementation("com.android.tools.build:gradle:8.7.0")
     /* Depend on the kotlin plugin, since we want to access it in our plugin */
     implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.0.0")
     /* Depend on the default Gradle API's since we want to build a custom plugin */
