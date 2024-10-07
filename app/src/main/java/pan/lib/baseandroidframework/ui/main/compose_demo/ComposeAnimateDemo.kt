@@ -8,11 +8,13 @@ import androidx.compose.animation.core.FastOutLinearInEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.VectorConverter
+import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.exponentialDecay
 import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -23,6 +25,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,7 +35,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
@@ -59,6 +64,8 @@ fun AnimateDemos() {
         AnimateInterruptDemo()
         Text(text = "边界动画")
         AnimateBoundDemo()
+        Text(text = "Transaction动画")
+        TransactionDemo()
     }
 }
 
@@ -286,4 +293,40 @@ fun AnimateInterruptDemo() {
 //        delay(1300)
 //        anim.stop()//停止动画
 //    }
+}
+
+/*
+多属性的状态切换，使用Transaction
+Transition相比多个animateDpAsState，有两个优势：
+1.方便管理，animation preview界面变量展示也能更清晰
+2.性能更好，只会在一个协程更新*/
+@Preview
+@Composable
+fun TransactionDemo() {
+    var big by remember { mutableStateOf(false) }
+    val bigTransition = updateTransition(targetState = big)
+//    val bigTransition = rememberTransition(MutableTransitionState(big).apply { targetState = true })
+    val size by bigTransition.animateDp(
+        label = "size", //preview 动画标签
+        transitionSpec = {
+            if (false isTransitioningTo true) { //正在从false到true的过程中
+                spring()
+            } else {
+                tween()
+            }
+        }
+    ) { if (it) 200.dp else 100.dp }
+
+    val corner by bigTransition.animateDp(label = "corner") { if (it) 0.dp else 20.dp }
+    Box(
+        Modifier
+            .padding(bottom = 20.dp)
+            .clip(RoundedCornerShape(corner))
+            .size(size)
+            .background(Color.Green)
+            .clickable(onClick = {
+                big = !big
+            })
+    )
+
 }
