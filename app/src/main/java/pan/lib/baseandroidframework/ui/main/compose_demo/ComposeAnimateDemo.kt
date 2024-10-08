@@ -2,7 +2,10 @@ package pan.lib.baseandroidframework.ui.main.compose_demo
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationEndReason
 import androidx.compose.animation.core.FastOutLinearInEasing
@@ -18,8 +21,11 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.animation.expandIn
 import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideIn
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.animation.with
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -79,6 +85,10 @@ fun AnimateDemos() {
         TransactionDemo()
         Text(text = "AnimatedVisibility动画")
         AnimatedVisibilityDemo()
+        Text(text = "Crossfade动画")
+        CrossfadeDemo()
+        Text(text = "AnimatedContent动画")
+        AnimatedContentDemo()
     }
 }
 
@@ -239,7 +249,10 @@ fun AnimateDecayDemo() {
 fun AnimateBoundDemo() {
     var startAnimation by remember { mutableStateOf(false) }
 
-    BoxWithConstraints {
+    BoxWithConstraints(
+        Modifier
+            .padding(bottom = 20.dp)
+    ) {
         val anim = remember { Animatable(0.dp, Dp.VectorConverter) }
         val animY = remember { Animatable(0.dp, Dp.VectorConverter) }
         val decay = remember { exponentialDecay<Dp>() }
@@ -403,4 +416,79 @@ fun AnimatedVisibilityDemo() {
         Text(text = "Toggle")
     }
 
+}
+
+@Composable
+private fun CrossfadeDemo() {
+    Column(
+        Modifier
+            .padding(bottom = 20.dp)
+    ) {
+        var shown by remember { mutableStateOf(true) }
+        Crossfade(shown) {
+            if (it) {
+                Box(
+                    Modifier
+                        .size(100.dp)
+                        .background(Color.Blue)
+                )
+            } else {
+                Box(
+                    Modifier
+                        .size(50.dp)
+                        .background(Color.Red)
+                )
+            }
+        }
+        Button(onClick = { shown = !shown }) {
+            Text("Toggle")
+        }
+    }
+}
+
+/*
+Crossfade
+    功能: Crossfade 用于在两个内容之间进行淡入淡出动画。
+    使用场景: 适用于简单的内容切换，例如在两个文本或图像之间切换。
+    动画效果: 仅支持淡入淡出效果。
+
+AnimatedContent
+    功能: AnimatedContent 用于在内容变化时执行复杂的动画。
+    使用场景: 适用于需要自定义动画效果的内容切换，例如在内容变化时执行滑动、缩放等动画。
+    动画效果: 支持多种动画效果，可以通过 transitionSpec 自定义动画。
+  */
+@Composable
+private fun AnimatedContentDemo() {
+    Column {
+        var shown by remember { mutableStateOf(true) }
+        AnimatedContent(shown, transitionSpec = {
+            if (targetState) {
+                (fadeIn(tween(3000)) togetherWith
+                        fadeOut(tween(3000, 3000))).apply {
+                    targetContentZIndex = -1f
+                }
+            } else {
+                (fadeIn(tween(3000)) togetherWith fadeOut(tween(3000, 3000)) using
+                        SizeTransform())
+
+            }
+        }) {
+            if (it) {
+                Box(
+                    Modifier
+                        .size(100.dp)
+                        .background(Color.Blue)
+                )
+            } else {
+                Box(
+                    Modifier
+                        .size(50.dp)
+                        .background(Color.Red)
+                )
+            }
+        }
+        Button(onClick = { shown = !shown }) {
+            Text("Toggle")
+        }
+    }
 }
