@@ -2,6 +2,7 @@ package pan.lib.baseandroidframework.ui.main.compose_demo
 
 import android.annotation.SuppressLint
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationEndReason
 import androidx.compose.animation.core.FastOutLinearInEasing
@@ -15,11 +16,17 @@ import androidx.compose.animation.core.repeatable
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.expandIn
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -27,6 +34,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,11 +42,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlin.coroutines.cancellation.CancellationException
@@ -66,6 +77,8 @@ fun AnimateDemos() {
         AnimateBoundDemo()
         Text(text = "Transaction动画")
         TransactionDemo()
+        Text(text = "AnimatedVisibility动画")
+        AnimatedVisibilityDemo()
     }
 }
 
@@ -250,7 +263,7 @@ fun AnimateBoundDemo() {
 
         Box(
             Modifier
-                .padding(anim.value, animY.value, 0.dp, 200.dp)
+                .padding(anim.value, animY.value, 0.dp, 0.dp)
                 .size(100.dp)
                 .background(Color.Green)
                 .clickable { startAnimation = true }
@@ -328,5 +341,66 @@ fun TransactionDemo() {
                 big = !big
             })
     )
+
+}
+
+@Composable
+fun AnimatedVisibilityDemo() {
+    var show by remember { mutableStateOf(false) }
+    Row(
+        Modifier.horizontalScroll(rememberScrollState())
+    ) {
+        AnimatedVisibility(show, enter = fadeIn(tween(2000), initialAlpha = 0.3f)) {
+            Box(
+                Modifier
+                    .size(100.dp)
+                    .background(Color.Green)
+
+            )
+        }
+
+        AnimatedVisibility(show, enter = slideIn { IntOffset(-it.width, -it.height) }) {
+            Box(
+                Modifier
+                    .padding(start = 20.dp)
+                    .size(100.dp)
+                    .background(Color.Green)
+
+            )
+        }
+
+        AnimatedVisibility(show, enter = slideInHorizontally()) {
+            Box(
+                Modifier
+                    .padding(start = 20.dp)
+                    .size(100.dp)
+                    .background(Color.Green)
+
+            )
+        }
+
+        AnimatedVisibility(
+            show,
+            enter = expandIn(expandFrom = Alignment.TopStart, initialSize = {
+                IntSize(it.width / 2, it.height / 2)
+            })
+        ) {
+            Box(
+                Modifier
+                    .padding(start = 20.dp)
+                    .size(100.dp)
+                    .background(Color.Green)
+
+            )
+        }
+
+    }
+
+    Button(
+        onClick = { show = !show },
+        Modifier.padding(bottom = 20.dp)
+    ) {
+        Text(text = "Toggle")
+    }
 
 }
