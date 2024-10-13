@@ -1,12 +1,19 @@
 package pan.lib.baseandroidframework.ui.main.compose_demo
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -77,4 +84,29 @@ class CombinedModifier(
     override fun toString() = "[" + foldIn("") { acc, element ->
         if (acc.isEmpty()) element.toString() else "$acc, $element"
     } + "]"
+}
+
+@Preview
+@Composable
+fun ComposedModifierDemo() {
+    Column {
+        Box(Modifier.background(Color.Blue) then Modifier.customPaddingModifier())
+        Text(
+            "Hello, World!",
+            Modifier.background(Color.Green) then Modifier.customPaddingModifier()
+        )
+    }
+}
+
+/**
+Modifier.composed()用于创建独立的有状态的 Modifier，
+所谓「独立」就是它会生成多个 Modifier 对象，互不影响。
+ComposedModifier 主要用途是：
+1.封装带状态的 Modifier。
+2.封装的 Modifier 需要 Compose 环境。*/
+fun Modifier.customPaddingModifier(): Modifier = composed {
+    var padding by remember { mutableStateOf(8.dp) }
+    Modifier
+        .padding(padding)
+        .clickable { padding += 8.dp }
 }
