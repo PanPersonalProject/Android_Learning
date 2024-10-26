@@ -16,6 +16,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.drawWithCache
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.tooling.preview.Preview
@@ -113,11 +118,15 @@ fun Modifier.customPaddingModifier(): Modifier = composed {
         .clickable { padding += 8.dp }
 }
 
-/*Modifier.layout() 的用处是修改对应组件的尺寸与位置偏移
+/*
+Modifier.layout() 的用处是修改对应组件的尺寸与位置偏移
 它适用于给组件增加装饰效果。 所谓「装饰效果」就是不干涉组件内部测量布局，只在外部调整，例如 padding。
 Compose 每一个组件最终都会生成 LayoutNode 对象，作为这个组件的代表存在内存中。
 它们的测量与布局由 LayoutNode.remeasure() 和 LayoutNode.replace() 方法负责，
-其实前者已经做完了所有工作，包括布局的计算，后者只是用计算的结果布局一下。*/
+其实前者已经做完了所有工作，包括布局的计算，后者只是用计算的结果布局一下。
+
+Modifier.layout{}等价于Modifier.then(object:LayoutModifier{override fun MeasureScope.measure() {}}),但是Modifier.layout{}更加简洁
+*/
 @Preview
 @Composable
 fun LayoutModifierDemo() {
@@ -170,12 +179,72 @@ ModifiedLayoutNode(
 @Preview
 @Composable
 fun LayoutModifierDemo2() {
-    //最终结果是50dp，父LayoutNode要求子LayoutNode的上限是50dp，子LayoutNode虽然写了100dp，但是会服从父LayoutNode
+    //最终结果是50dp，父LayoutNode要求子LayoutNode的上限和下限   是50dp，子LayoutNode虽然写了100dp，但是会服从父LayoutNode
     Box(
         Modifier
             .size(50.dp)
             .size(100.dp)
             .background(Color.Green)
     )
+
+}
+
+//LayoutModifier管理的是测量和布局，DrawModifier管理的是绘制
+// Modifier.drawWithContent { }等价于Modifier.then(object :DrawModifier{override fun ContentDrawScope.draw() {}})
+
+@Preview
+@Composable
+fun DrawModifierDemo() {
+    Column {
+
+        Box(
+            Modifier
+                .drawWithContent {
+                    drawContent() //绘制子DrawModifierNode链表的所有绘制内容
+                    //新的绘制2
+                    drawCircle(Color.Red)
+                }
+                .size(100.dp)
+                .background(Color.Blue)
+        )
+
+        /*
+            Modifier.drawBehind() 修饰符用于在元素内容后面绘制内容。
+            本质就是简化了下面的注释代码👇
+            override fun ContentDrawScope.draw() {
+                onDraw()
+                drawContent()
+            }
+          */
+        Text(
+            text = "Hello Compose!",
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .drawBehind {
+                    drawRoundRect(color = Color.White, cornerRadius = CornerRadius(10.dp.toPx()))
+                }
+                .padding(4.dp)
+        )
+
+
+        /*  Compose 提供了 Modifier.drawWithCache() 修饰符，能缓存在其中创建的对象。
+                只要绘制区域的大小不变，或者读取的任何状态对象都未发生变化，对象就会被缓存。*/
+        Text(
+            text = "Hello Compose!",
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .drawWithCache { // CacheDrawScope
+                    // brush 对象会被缓存
+                    val brush = Brush.linearGradient(colors = listOf(Color.Blue, Color.White))
+
+                    onDrawBehind {
+                        drawRoundRect(brush = brush, cornerRadius = CornerRadius(10.dp.toPx()))
+                    }
+                    // 也可以调用 onDrawWithContent 进行绘制
+                }
+                .padding(4.dp)
+        )
+
+    }
 
 }
