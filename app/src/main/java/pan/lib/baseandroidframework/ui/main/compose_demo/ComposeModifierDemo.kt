@@ -2,6 +2,7 @@ package pan.lib.baseandroidframework.ui.main.compose_demo
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -247,4 +249,19 @@ fun DrawModifierDemo() {
 
     }
 
+}
+
+@Composable
+fun PointerInputModifierDemo() {
+    Box(modifier = Modifier
+        .background(Color.LightGray)
+        .size(100.dp)
+        .pointerInput(Unit) {
+            awaitEachGesture {
+                val event = awaitPointerEvent()
+                println("Pointer event: $event")
+
+            }
+        }
+    )
 }
