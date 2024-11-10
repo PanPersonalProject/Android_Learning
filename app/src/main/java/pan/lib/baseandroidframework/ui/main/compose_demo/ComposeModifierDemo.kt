@@ -1,15 +1,20 @@
 package pan.lib.baseandroidframework.ui.main.compose_demo
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,8 +29,11 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 
 /**
@@ -264,4 +272,98 @@ fun PointerInputModifierDemo() {
             }
         }
     )
+}
+
+@Composable
+fun ParentDataModifierDemo() {
+    WeightLayout(
+        Modifier
+            .fillMaxWidth()
+            .height(50.dp)
+    ) {
+        Box(
+            Modifier
+                .myWeight(2f)
+                .background(Color.Red)
+                .myTag("Red")
+        )
+        Box(
+            Modifier
+                .myWeight(1f)
+                .background(Color.Green)
+                .myTag("Green")
+        )
+        Box(
+            Modifier
+                .myWeight(1f)
+                .background(Color.Blue)
+                .myTag("Blue")
+        )
+    }
+}
+
+data class WeightLayoutData(val weight: Float, val tag: String)
+
+@LayoutScopeMarker // 禁止在间接作用域里调用（Kotlin 语法允许在间接作用域里调用）
+@Immutable
+object WeightLayoutScope {
+
+    // 扩展函数，方便用户创建 ParentDataModifier
+    fun Modifier.myWeight(weight: Float) = then(object : ParentDataModifier {
+        override fun Density.modifyParentData(parentData: Any?): Any? {
+            val currentData =
+                parentData as? WeightLayoutData ?: WeightLayoutData(0f, "")
+            return currentData.copy(weight = weight)
+        }
+    })
+
+    fun Modifier.myTag(tag: String) = then(object : ParentDataModifier {
+        override fun Density.modifyParentData(parentData: Any?): Any? {
+            val currentData =
+                parentData as? WeightLayoutData ?: WeightLayoutData(0f, "")
+            return currentData.copy(tag = tag)
+        }
+    })
+}
+
+
+@Composable
+fun WeightLayout(modifier: Modifier, content: @Composable WeightLayoutScope.() -> Unit) {
+    Layout(
+        content = { WeightLayoutScope.content() },
+        modifier = modifier
+    ) { measurables, constraints ->
+        // Calculate the total weight
+        val totalWeight =
+            measurables.sumOf { (it.parentData as? WeightLayoutData)?.weight?.toDouble() ?: 0.0 }
+                .toFloat()
+        // Measure the children
+        val placeables = measurables.map { measurable ->
+            val parentData = measurable.parentData as? WeightLayoutData
+            val weight = parentData?.weight ?: 0f
+            val tag = parentData?.tag ?: ""
+            Log.d("WeightLayout", "tag: $tag, weight: $weight")
+
+            val childConstraints = constraints.copy(
+                minWidth = (constraints.maxWidth * (weight / totalWeight)).toInt(),
+                maxWidth = (constraints.maxWidth * (weight / totalWeight)).toInt()
+            )
+            measurable.measure(childConstraints)
+        }
+
+        // Calculate the layout size
+        val totalWidth = constraints.maxWidth
+        val totalHeight = placeables.maxOfOrNull { it.height } ?: constraints.minHeight
+
+        // Set the layout size
+        layout(totalWidth, totalHeight) {
+            var xPosition = 0
+
+            // Place the children
+            placeables.forEach { placeable ->
+                placeable.placeRelative(x = xPosition, y = 0)
+                xPosition += placeable.width
+            }
+        }
+    }
 }
