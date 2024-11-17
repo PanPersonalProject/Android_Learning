@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.alpha
@@ -32,6 +33,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.ParentDataModifier
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.modifier.modifierLocalOf
+import androidx.compose.ui.modifier.modifierLocalProvider
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
@@ -365,5 +369,40 @@ fun WeightLayout(modifier: Modifier, content: @Composable WeightLayoutScope.() -
                 xPosition += placeable.width
             }
         }
+    }
+}
+
+
+// Define the type of data.
+val ModifierLocalSender = modifierLocalOf<Sender> { error("No sender provided by parent.") }
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+fun ModifierLocalDemo() {
+
+    Box(
+        Modifier
+            // Provide an instance associated with the sender type.
+            .modifierLocalProvider(ModifierLocalSender) {
+                Sender { println("Message Received: $it") }
+            }
+    ) {
+        var sender by remember { mutableStateOf<Sender?>(null) }
+        Box(
+            Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .background(Color.Red)
+                // Use the sender type to fetch an instance.
+                .modifierLocalConsumer { sender = ModifierLocalSender.current }
+                // Use this instance to send a message to the parent.
+                .clickable { sender?.sendMessage("Hello Wor111d") }
+        )
+    }
+}
+
+class Sender(val onMessageReceived: (String) -> Unit) {
+    fun sendMessage(message: String) {
+        onMessageReceived(message)
     }
 }
