@@ -39,6 +39,7 @@ import pan.lib.baseandroidframework.ui.main.compose_demo.AnimateDemos
 import pan.lib.baseandroidframework.ui.main.compose_demo.ComposeRecompositionDemo
 import pan.lib.baseandroidframework.ui.main.compose_demo.CompositionLocalDemo
 import pan.lib.baseandroidframework.ui.main.compose_demo.DerivedStateOfDemo
+import pan.lib.baseandroidframework.ui.main.compose_demo.EffectDemo
 import pan.lib.baseandroidframework.ui.main.compose_demo.listview.ComposeListViewDemoActivity
 import pan.lib.baseandroidframework.ui.main.graphics.GpuImageActivity
 import pan.lib.baseandroidframework.ui.main.graphics.OpenGLDemoActivity
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
         const val DERIVED_STATE_OF_DEMO = "derived_state_of_demo"
         const val COMPOSITION_LOCAL_DEMO = "composition_local_demo"
         const val ANIMATE_DP_AS_STATE_DEMO = "animate_dp_as_state_demo"
+        const val EFFECT = "effect"
 
     }
 
@@ -118,6 +120,7 @@ class MainActivity : ComponentActivity() {
                     composable(NavRoutes.DERIVED_STATE_OF_DEMO) { DerivedStateOfDemo() }
                     composable(NavRoutes.COMPOSITION_LOCAL_DEMO) { CompositionLocalDemo() }
                     composable(NavRoutes.ANIMATE_DP_AS_STATE_DEMO) { AnimateDemos() }
+                    composable(NavRoutes.EFFECT) { EffectDemo() }
                 }
             }
         }
@@ -220,6 +223,12 @@ fun ComposeMenu(navController: NavHostController) {
             navController.navigate(NavRoutes.ANIMATE_DP_AS_STATE_DEMO)
         }) {
             Text(text = "AnimateDpAsStateDemo")
+        }
+
+        Button(onClick = {
+            navController.navigate(NavRoutes.EFFECT)
+        }) {
+            Text(text = "附带作用")
         }
     }
 }
