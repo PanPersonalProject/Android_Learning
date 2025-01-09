@@ -15,11 +15,13 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun EffectDemo() {
@@ -33,6 +35,9 @@ fun EffectDemo() {
         EffectCompare()
         Text("rememberUpdatedState")
         RememberUpdatedStateDemo()
+        Text("CoroutineScope")
+        CoroutineScopeDemo()
+
     }
 }
 
@@ -99,3 +104,41 @@ private fun CustomLaunchedEffect(welcome: String) {
         Log.d("EffectDemo", "rememberedWelcome = $rememberedWelcome")
     }
 }
+
+/**
+rememberCoroutineScope 和 LaunchedEffect 都是 Jetpack Compose 中用于处理协程的 API，但它们有不同的使用场景：
+
+rememberCoroutineScope:
+用于在组合函数中创建一个 CoroutineScope，该作用域的生命周期与组合函数的生命周期一致。
+适用于在Composable作用域外面启动协程，并且希望手动控制协程的启动和取消的场景。
+
+LaunchedEffect:
+用于在组合函数中启动协程。
+当 key 参数发生变化时，LaunchedEffect 会取消当前协程并启动一个新的协程。
+适用于需要在状态变化时自动启动和取消协程的场景。
+ */
+@Composable
+fun CoroutineScopeDemo() {
+    val scope = rememberCoroutineScope()
+    var showText by remember { mutableStateOf(true) }
+
+    // 使用 rememberCoroutineScope 启动协程
+    Button(onClick = {
+        scope.launch {
+            Log.d("CoroutineScopeDemo", "rememberCoroutineScope 启动的协程")
+        }
+    }) {
+        Text("Click to launch coroutine")
+    }
+
+    // 使用 LaunchedEffect 启动协程
+    LaunchedEffect(showText) {
+        Log.d("CoroutineScopeDemo", "LaunchedEffect 启动的协程")
+    }
+
+    // 切换 showText 的值
+    Button(onClick = { showText = !showText }) {
+        Text("Toggle showText")
+    }
+}
+
