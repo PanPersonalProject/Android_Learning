@@ -14,6 +14,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
@@ -21,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 @Composable
@@ -37,7 +39,8 @@ fun EffectDemo() {
         RememberUpdatedStateDemo()
         Text("CoroutineScope")
         CoroutineScopeDemo()
-
+        Text("ProduceState")
+        ProduceStateDemo()
     }
 }
 
@@ -142,3 +145,30 @@ fun CoroutineScopeDemo() {
     }
 }
 
+private val dataFlow = MutableStateFlow("初始数据")
+
+/**
+ * 它用于将非 Compose 的异步或监听驱动的状态转换成 Compose 可以理解和响应的State
+ *
+ * ProduceStateDemo等同于下面写法的简化版：
+ *
+ *     val result = remember { mutableStateOf("加载中...") }
+ *
+ *     LaunchedEffect(Unit) {
+ *         dataFlow.collect { result.value = it }
+ *     }
+ *
+ *     Text(text = result.value)
+ *
+ * flow也有更便捷的写法：
+ *
+ *     val data by dataFlow.collectAsState(initial = "加载中...")
+ * */
+@Composable
+fun ProduceStateDemo() {
+    val data by produceState(initialValue = "加载中...") {
+        dataFlow.collect { value = it }
+    }
+
+    Text(text = data)
+}
