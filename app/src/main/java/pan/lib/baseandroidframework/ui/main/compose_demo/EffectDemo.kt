@@ -13,12 +13,14 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.delay
@@ -41,6 +43,9 @@ fun EffectDemo() {
         CoroutineScopeDemo()
         Text("ProduceState")
         ProduceStateDemo()
+        Text("snapshotFlow")
+        SnapshotFlowDemo()
+
     }
 }
 
@@ -171,4 +176,33 @@ fun ProduceStateDemo() {
     }
 
     Text(text = data)
+}
+
+/**
+ * SnapshotFlowDemo 演示了如何使用 snapshotFlow 将多个 Compose 状态转换为 Flow
+ */
+@Composable
+fun SnapshotFlowDemo() {
+    var count by remember { mutableIntStateOf(0) }
+    var text by remember { mutableStateOf("初始文本") }
+
+    // 使用 snapshotFlow 将多个 Compose 状态转换为 Flow
+    val combinedFlow = snapshotFlow { count to text }
+
+    // 使用 LaunchedEffect 收集 Flow 的数据
+    LaunchedEffect(Unit) {
+        combinedFlow.collect { (countValue, textValue) ->
+            Log.d("SnapshotFlowDemo", "收集到的 count: $countValue, text: $textValue")
+        }
+    }
+
+    // UI 用于更新状态
+    Column {
+        Button(onClick = { count++ }) {
+            Text("增加 count: $count")
+        }
+        Button(onClick = { text = "更新后的文本" }) {
+            Text("更新文本: $text")
+        }
+    }
 }
