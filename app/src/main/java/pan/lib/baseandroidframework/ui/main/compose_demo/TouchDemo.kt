@@ -1,8 +1,10 @@
 package pan.lib.baseandroidframework.ui.main.compose_demo
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.gestures.rememberScrollableState
@@ -12,11 +14,10 @@ import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,9 +27,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import pan.lib.baseandroidframework.R
 import kotlin.math.roundToInt
 
 @Composable
@@ -37,7 +42,6 @@ fun TouchDemo() {
         Modifier
             .fillMaxWidth()
             .fillMaxHeight()
-            .verticalScroll(rememberScrollState())
     ) {
         Text(text = "DraggableSample")
         DraggableSample()
@@ -45,6 +49,8 @@ fun TouchDemo() {
         ScrollableSample()
         Text("二维滑动监测")
         DragWithPointerInput()
+        Text("多指手势")
+        GestureImage()
     }
 }
 
@@ -132,6 +138,48 @@ fun DragWithPointerInput() {
         Text(
             text = "当前位置: x=${offsetX.toInt()}, y=${offsetY.toInt()}",
             color = Color.White
+        )
+    }
+}
+
+@Composable
+fun GestureImage() {
+    val scale = remember { mutableFloatStateOf(1f) }
+    val offsetX = remember { mutableFloatStateOf(0f) }
+    val offsetY = remember { mutableFloatStateOf(0f) }
+    val rotation = remember { mutableFloatStateOf(0f) }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Gray)
+            .pointerInput(Unit) {
+                // 检测变换手势，包括缩放、平移和旋转
+                detectTransformGestures { _, pan, zoom, rotationChange ->
+                    // 更新缩放比例
+                    scale.floatValue *= zoom
+                    // 更新水平偏移量
+                    offsetX.floatValue += pan.x
+                    // 更新垂直偏移量
+                    offsetY.floatValue += pan.y
+                    // 更新旋转角度
+                    rotation.floatValue += rotationChange
+                }
+            }
+    ) {
+        Image(
+            painter = painterResource(id = R.mipmap.bj),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()  // 让图片填满整个 Box
+                .graphicsLayer(
+                    scaleX = scale.floatValue, // 应用水平缩放
+                    scaleY = scale.floatValue, // 应用垂直缩放
+                    translationX = offsetX.floatValue, // 应用水平平移
+                    translationY = offsetY.floatValue, // 应用垂直平移
+                    rotationZ = rotation.floatValue // 应用旋转
+                ),
+            contentScale = ContentScale.Fit
         )
     }
 }
