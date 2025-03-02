@@ -124,6 +124,7 @@ class MainActivity : ComponentActivity() {
                     composable(NavRoutes.ANIMATE_DP_AS_STATE_DEMO) { AnimateDemos() }
                     composable(NavRoutes.EFFECT) { EffectDemo() }
                     composable(NavRoutes.TOUCH) { TouchDemo() }
+                    composable(NavRoutes.TOUCH) { TouchDemo() }
                 }
             }
         }
@@ -238,6 +239,12 @@ fun ComposeMenu(navController: NavHostController) {
             navController.navigate(NavRoutes.TOUCH)
         }) {
             Text(text = "触摸事件")
+        }
+
+        Button(onClick = {
+            context.startActivity(Intent(context, ComposeViewInAndroidActivity::class.java))
+        }) {
+            Text(text = "Android嵌套Compose")
         }
     }
 }
