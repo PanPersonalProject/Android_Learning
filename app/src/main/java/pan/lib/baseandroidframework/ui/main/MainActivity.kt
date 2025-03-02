@@ -40,6 +40,7 @@ import pan.lib.baseandroidframework.ui.main.compose_demo.ComposeRecompositionDem
 import pan.lib.baseandroidframework.ui.main.compose_demo.CompositionLocalDemo
 import pan.lib.baseandroidframework.ui.main.compose_demo.DerivedStateOfDemo
 import pan.lib.baseandroidframework.ui.main.compose_demo.EffectDemo
+import pan.lib.baseandroidframework.ui.main.compose_demo.TouchDemo
 import pan.lib.baseandroidframework.ui.main.compose_demo.listview.ComposeListViewDemoActivity
 import pan.lib.baseandroidframework.ui.main.graphics.GpuImageActivity
 import pan.lib.baseandroidframework.ui.main.graphics.OpenGLDemoActivity
@@ -65,6 +66,7 @@ class MainActivity : ComponentActivity() {
         const val COMPOSITION_LOCAL_DEMO = "composition_local_demo"
         const val ANIMATE_DP_AS_STATE_DEMO = "animate_dp_as_state_demo"
         const val EFFECT = "effect"
+        const val TOUCH = "touch"
 
     }
 
@@ -121,6 +123,7 @@ class MainActivity : ComponentActivity() {
                     composable(NavRoutes.COMPOSITION_LOCAL_DEMO) { CompositionLocalDemo() }
                     composable(NavRoutes.ANIMATE_DP_AS_STATE_DEMO) { AnimateDemos() }
                     composable(NavRoutes.EFFECT) { EffectDemo() }
+                    composable(NavRoutes.TOUCH) { TouchDemo() }
                 }
             }
         }
@@ -229,6 +232,12 @@ fun ComposeMenu(navController: NavHostController) {
             navController.navigate(NavRoutes.EFFECT)
         }) {
             Text(text = "附带作用")
+        }
+
+        Button(onClick = {
+            navController.navigate(NavRoutes.TOUCH)
+        }) {
+            Text(text = "触摸事件")
         }
     }
 }

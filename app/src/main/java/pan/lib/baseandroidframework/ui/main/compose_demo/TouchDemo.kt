@@ -1,14 +1,18 @@
 package pan.lib.baseandroidframework.ui.main.compose_demo
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.gestures.rememberScrollableState
 import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsDraggedAsState
 import androidx.compose.foundation.layout.Box
@@ -16,7 +20,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +34,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.pointer.PointerEventType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -49,8 +56,59 @@ fun TouchDemo() {
         ScrollableSample()
         Text("二维滑动监测")
         DragWithPointerInput()
+        Text("触摸事件底层实现")
+        TouchClickEventDemo()
         Text("多指手势")
         GestureImage()
+
+    }
+}
+
+@Composable
+fun TouchClickEventDemo() {
+    Text(
+        text = "点击触发Click事件",
+        modifier = Modifier
+            //  detectTapGestures {  } 也可以实现点击事件，会更简单
+            .myClick {
+                Log.e("TouchClickEventDemo", "点击了")
+            }
+            .background(Color.Blue)
+            .height(48.dp)
+            .fillMaxWidth()
+            .padding(8.dp),
+        color = Color.White
+    )
+}
+
+@Composable
+private fun Modifier.myClick(onClick: () -> Unit) = pointerInput(Unit) {
+
+    awaitEachGesture {
+        awaitFirstDown()
+        while (true) {
+            val event = awaitPointerEvent()
+            when (event.type) {
+                // 按下事件
+                PointerEventType.Move -> {
+                    val pos = event.changes[0].position
+                    if (pos.x < 0 || pos.x > size.width || pos.y < 0 || pos.y > size.height) {
+                        break //break代表一次触摸事件流程结束，后面的Release事件不会再触发
+                    }
+
+                }
+
+                PointerEventType.Release -> {
+                    //最后一根手指抬起，才触发点击事件
+                    if (event.changes.size == 1) {
+                        onClick()
+                    }
+                    break
+                }
+
+            }
+            waitForUpOrCancellation()
+        }
     }
 }
 
@@ -183,3 +241,4 @@ fun GestureImage() {
         )
     }
 }
+
